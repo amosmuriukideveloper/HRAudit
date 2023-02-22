@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Department;
-use Illuminate\Http\Request;
+
 
 class DepartmentController extends Controller
 {
@@ -16,8 +16,10 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::all();
-        return view('departments.index', compact('departments'));
+       
+        $departments = Department::get();
+        return view('department.index', compact('departments'));
+
     }
 
     /**
@@ -27,7 +29,8 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        $departments = Department::get();
+        return view('department.index', compact('departments'));
     }
 
     /**
@@ -39,9 +42,15 @@ class DepartmentController extends Controller
     public function store(CreateDepartmentRequest $request)
     {
         
-        $request->validated();
+        $validatedData = $request->validate([
+            
+            'name' => 'required|string|max:255',
+        ]);
 
-        $department = Department::create($request->all());
+        $department = Department::create($validatedData);
+        return redirect()->route('department.index')
+        ->withSuccess(__('Department created successfully.'));
+
 
     }
 
@@ -53,9 +62,9 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        $department = Department::findOrFail($id);
+        // $department = Department::findOrFail($id);
 
-        return view('departments.show', compact('department'));
+        // return view('departments.show', compact('department'));
 
     }
 
@@ -67,7 +76,9 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        return view('departments.edit', compact('department'));
+        $department = Department::findOrFail($id);
+
+        return view('department.edit', compact('department'));
 
     }
 
@@ -84,7 +95,14 @@ class DepartmentController extends Controller
         $department =  Department::where('id','=',$id)->firstOrFail();
 
 
-        $department->update($request->all());
+        $request->validate([
+            'name' => 'required|unique:department,name,'.$department->id
+        ]);
+
+        $department->update($request->only('name'));
+
+        return redirect()->route('department.index')
+            ->withSuccess(__('Department updated successfully.'));
     }
 
     /**
@@ -96,6 +114,6 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         $department->delete();
-        return redirect()->route('departments.index')->with('success', 'Department deleted successfully');
+        return redirect()->route('department.index')->with('success', 'Department deleted successfully');
     }
 }

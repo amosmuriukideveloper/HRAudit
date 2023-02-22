@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateEthnicityRequest;
 use App\Http\Requests\UpdateEthnicityRequest;
 use App\Models\Ethnicity;
-use Illuminate\Http\Request;
 
 class EthnicityController extends Controller
 {
@@ -16,8 +15,8 @@ class EthnicityController extends Controller
      */
     public function index()
     {
-        $ethnicity = Ethnicity::all();
-        return view('ethnicity.index', compact('ethnicity'));
+        $ethnicities = Ethnicity::all();
+        return view('ethnicity.index', compact('ethnicities'));
     }
 
     /**
@@ -27,7 +26,8 @@ class EthnicityController extends Controller
      */
     public function create()
     {
-        return view('ethnicity.create');
+        $ethnicities = Ethnicity::get();
+        return view('ethnicity.index', compact('ethnicities'));
     }
 
     /**
@@ -38,7 +38,13 @@ class EthnicityController extends Controller
      */
     public function store(CreateEthnicityRequest $request)
     {
-        Ethnicity::create($request->all());
+        $request->validated();
+        $ethnicity = Ethnicity::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('ethnicity.index')
+            ->withSuccess(__('Ethnicity created successfully.'));
     }
 
     /**
@@ -49,7 +55,7 @@ class EthnicityController extends Controller
      */
     public function show(Ethnicity $ethnicity)
     {
-        return view('ethnicity.show',compact('ethnicity'));
+        // return view('ethnicity.show',compact('ethnicity'));
     }
 
     /**
@@ -73,7 +79,17 @@ class EthnicityController extends Controller
      */
     public function update(UpdateEthnicityRequest $request, Ethnicity $ethnicity)
     {
-        $ethnicity->update($request->all());
+        $request->validated();
+        $ethnicity = Ethnicity::findOrFail($ethnicity);
+
+
+        $ethnicity->update([
+            'name' => $request->name,
+            
+        ]);
+
+        return redirect()->route('ethnicity.index')
+            ->withSuccess(__('Ethnicity updated successfully.'));
     }
 
     /**
@@ -84,6 +100,9 @@ class EthnicityController extends Controller
      */
     public function destroy(Ethnicity $ethnicity)
     {
+        // dd($ethnicity);
         $ethnicity->delete();
+        return redirect()->route('department.index')
+        ->withSuccess(__('Ethnicity record deleted successfully.'));
     }
 }

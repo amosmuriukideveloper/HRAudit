@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('employment_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('personal_detail_id');
-            $table->boolean('appointment_letter');
+            $table->boolean('appointment_letter_id')->nullable();
             $table->unsignedBigInteger('employment_term_id');
-            $table->date('date_of_employment');
-            $table->unsignedBigInteger('probation_status_id');
+            $table->unsignedBigInteger('probation_statuses_id');
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('job_grade_id');
+            $table->unsignedBigInteger('department_id');
+            $table->string('employee_certificate');
             $table->timestamps();
         });
     }

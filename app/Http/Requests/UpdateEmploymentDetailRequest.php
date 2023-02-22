@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Certificate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEmploymentDetailRequest extends FormRequest
@@ -24,13 +25,14 @@ class UpdateEmploymentDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            'personal_detail_id' => 'required|integer',
-            'appointment_letter' => 'required|boolean',
+            'department_id' =>'required|integer',
+            
+            'appointment_letter_id' => 'required|string',
             'employment_term_id' => 'required|integer',
-            'date_of_employment' => 'required|date',
-            'probation_status_id' => 'required|integer',
+            'probation_statuses_id' => 'required|integer',
             'position_id' => 'required|integer',
             'job_grade_id' => 'required|integer',
+            'employee_certificate' => 'required|string'
 
         ];
     }

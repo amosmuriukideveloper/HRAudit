@@ -28,7 +28,9 @@ class DutyController extends Controller
      */
     public function create()
     {
-        return view('duties.create');
+        $duties = Duty::all();
+
+        return view('duty.index', compact('duties'));
 
     }
 
@@ -47,6 +49,9 @@ class DutyController extends Controller
         ]);
 
         $duty = Duty::create($validatedData);
+
+        return redirect()->route('duty.index')
+        ->withSuccess(__('Duty added successfully.'));
     }
 
     /**
@@ -69,7 +74,7 @@ class DutyController extends Controller
      */
     public function edit(Duty $duty)
     {
-        return view('duties.edit', compact('duty'));
+        return view('duty.edit', compact('duty'));
 
     }
 
@@ -82,6 +87,7 @@ class DutyController extends Controller
      */
     public function update(UpdateDutyRequest $request, Duty $duty)
     {
+        
         $validatedData = $request->validate([
             
             'duty_name' => 'required|string|max:255',
@@ -89,6 +95,8 @@ class DutyController extends Controller
         ]);
 
         $duty->update($validatedData);
+        return redirect()->route('duty.index')
+        ->withSuccess(__('Duty updated successfully.'));
     }
 
     /**

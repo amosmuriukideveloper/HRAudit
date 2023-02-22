@@ -11,13 +11,18 @@ class EmploymentDetail extends Model
 
     protected $table = 'employment_details';
     protected $fillable = [
-        'personal_detail_id',
-        'appointment_letter',
+         'department_id',
+        
+        'appointment_letter_id',
         'employment_term_id',
-        'date_of_employment',
-        'probation_status_id',
+       
+        'probation_statuses_id',
         'position_id',
-        'job_grade_id'
+        'job_grade_id',
+
+        'employee_certificate' 
+
+    
     ];
 
     public function personalDetail()

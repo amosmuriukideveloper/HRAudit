@@ -16,8 +16,8 @@ class DisabilityStatusController extends Controller
      */
     public function index()
     {
-        $disabilityStatus = DisabilityStatus::all();
-        return view('disability_statuses.index', compact('disabilityStatus'));
+        $disabilityStatuses = DisabilityStatus::all();
+        return view('disability.index', compact('disabilityStatuses'));
     }
 
     /**
@@ -27,7 +27,8 @@ class DisabilityStatusController extends Controller
      */
     public function create()
     {
-        return view('disability_status.create');
+        $disabilityStatuses = DisabilityStatus::all();
+        return view('disability.index', compact('disabilityStatuses'));
 
     }
 
@@ -39,10 +40,15 @@ class DisabilityStatusController extends Controller
      */
     public function store(CreateDisabilityRequest $request)
     {
-        $request->validated();
+       
+        $validatedData = $request->validate([
+            
+            'name' => 'required|string|max:255',
+        ]);
 
-        DisabilityStatus::create($request->all());
-        return redirect()->route('disability_status.index');
+        $disabilityStatus = DisabilityStatus::create($validatedData);
+        return redirect()->route('disability.status.index')
+        ->withSuccess(__('Disability created successfully.'));
     }
 
     /**
@@ -53,8 +59,8 @@ class DisabilityStatusController extends Controller
      */
     public function show($id)
     {
-        $disabilityStatus = DisabilityStatus::findOrFail($id);
-        return view('disability_status.show', compact('disabilityStatus'));
+        // $disabilityStatus = DisabilityStatus::findOrFail($id);
+        // return view('disability_status.show', compact('disabilityStatus'));
     }
 
     /**
@@ -66,7 +72,9 @@ class DisabilityStatusController extends Controller
     public function edit($id)
     {
         $disabilityStatus = DisabilityStatus::findOrFail($id);
-        return view('disability_status.edit', compact('disabilityStatus'));
+        return view('disability.edit', compact('disabilityStatus'));
+
+        
 
     }
 
@@ -77,12 +85,20 @@ class DisabilityStatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDisabilityRequest $request, $id)
+    public function update(UpdateDisabilityRequest $request, $disabilityStatus)
     {
         
-        $validated = $request->validated();
-        $disabilityStatus = DisabilityStatus::findOrFail($id);
-        $disabilityStatus->update($request->all());
+        $request->validated();
+        $disabilityStatus = DisabilityStatus::findOrFail($disabilityStatus);
+
+
+        $disabilityStatus->update([
+            'name' => $request->name,
+            
+        ]);
+
+        return redirect()->route('disability.status.index')
+            ->withSuccess(__('Disability Status updated successfully.'));
     }
 
     /**
@@ -95,5 +111,7 @@ class DisabilityStatusController extends Controller
     {
         $disabilityStatus = DisabilityStatus::findOrFail($id);
         $disabilityStatus->delete();
+        return redirect()->route('disability.status.index')
+        ->with('success','Disability Status deleted successfully');
     }
 }

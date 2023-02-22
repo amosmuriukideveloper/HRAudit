@@ -18,7 +18,7 @@ class EmploymentTermController extends Controller
     {
         $employmentTerms = EmploymentTerm::all();
 
-        return view('employmentTerms.index', compact('employmentTerms'));
+        return view('employmentterm.index', compact('employmentTerms'));
     }
 
     /**
@@ -28,7 +28,8 @@ class EmploymentTermController extends Controller
      */
     public function create()
     {
-        return view('employmentTerms.create');
+        $employmentTerms = EmploymentTerm::get();
+        return view('employmentterm.index', compact('employmentTerms'));
     }
 
     /**
@@ -39,7 +40,14 @@ class EmploymentTermController extends Controller
      */
     public function store(CreateEmploymentTermRequest $request)
     {
-        $employmentTerm = EmploymentTerm::create($request->all());
+        $request->validated();
+        $employmentTerm = EmploymentTerm::create([
+            'name' => $request->name,
+           
+        ]);
+
+        return redirect()->route('employment.term.index')
+            ->withSuccess(__('Employment Term created successfully.'));
     }
 
     /**
@@ -50,7 +58,7 @@ class EmploymentTermController extends Controller
      */
     public function show($id)
     {
-        return view('employmentTerms.show', compact('employmentTerm'));
+        // return view('employmentTerms.show', compact('employmentTerm'));
     }
 
     /**
@@ -59,9 +67,10 @@ class EmploymentTermController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(EmploymentTerm $employmentTerm)
+    public function edit(EmploymentTerm $employmentTerm, $id)
     {
-        return view('employmentTerms.edit', compact('employmentTerm'));
+        $employmentTerm = EmploymentTerm::findOrFail($id);
+        return view('employmentterm.edit', compact('employmentTerm'));
 
     }
 
@@ -74,7 +83,17 @@ class EmploymentTermController extends Controller
      */
     public function update(UpdateEmploymentTermRequest $request, EmploymentTerm $employmentTerm)
     {
-        $employmentTerm->update($request->all());
+        $request->validated();
+        $employmentTerm = EmploymentTerm::findOrFail($employmentTerm);
+
+
+        $employmentTerm->update([
+            'name' => $request->name,
+            
+        ]);
+
+        return redirect()->route('employment.term.index')
+            ->withSuccess(__('Employment Term updated successfully.'));
     }
 
     /**
@@ -86,5 +105,7 @@ class EmploymentTermController extends Controller
     public function destroy(EmploymentTerm $employmentTerm)
     {
         $employmentTerm->delete();
+        return redirect()->route('employment.term.index')
+        ->withSuccess(__('Employment term record deleted successfully.'));
     }
 }

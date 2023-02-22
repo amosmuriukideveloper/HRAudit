@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEmploymentChangeRequest;
 use App\Http\Requests\UpdateEmploymentChangeRequest;
+use App\Models\Certificate;
+use App\Models\ChangeType;
+use App\Models\Department;
 use App\Models\EmploymentChange;
-
+use App\Models\Institution;
+use App\Models\JobTitle;
+use App\Models\Relationship;
 
 class EmploymentChangeController extends Controller
 {
@@ -17,8 +22,9 @@ class EmploymentChangeController extends Controller
     public function index()
     {
         $changes = EmploymentChange::all();
+        
 
-        return view('employee_changes.index', compact('changes'));
+        return view('employment.change.index', compact('changes'));
     }
 
     /**
@@ -26,9 +32,18 @@ class EmploymentChangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
+
     {
-        return view('employment_changes.create');
+        $id = $id;
+        $jobTitles = JobTitle::all();
+        $departments = Department::all();
+        $relationships = Relationship::all();
+        $institutions = Institution::all();
+        $certificates = Certificate::all();
+        $courses = Certificate::all();
+        $changeTypes = ChangeType::all();
+        return view('forms.third', compact ('jobTitles', 'changeTypes', 'departments', 'courses', 'relationships', 'institutions', 'certificates', 'id' ));
     }
 
     /**
@@ -37,10 +52,28 @@ class EmploymentChangeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateEmploymentChangeRequest $request)
+    public function store(CreateEmploymentChangeRequest $request, $id)
     {
-        $change = EmploymentChange::create($request->validated());
+        
+        $employmentchange = EmploymentChange::create($request->validated());
+        $employmentchange = new EmploymentChange([
+            'personal_detail_id' => $id,
+            'relative_id' => $request->relative,
+            'name' =>$request->name,
+            'job_title_id' => $request->job_title,
+            'department' => $request->department,
+            'study_leave' => $request->study_leave,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'institution_id' => $request->institution,
+            'course' => $request->course,
+            'certificate_id' => $request->certificate,
+            'date' => $request ->date,
+            'change_type_id' => $request ->change_type,
+        ]);
+        $employmentchange->save();
 
+        return redirect('payroll.details.create')->with('success', 'Employment Changes/Movements have been added');
     }
 
     /**
@@ -51,7 +84,7 @@ class EmploymentChangeController extends Controller
      */
     public function show($id)
     {
-        $change = EmploymentChange::findOrFail($id);
+        $employmentchange = EmploymentChange::findOrFail($id);
 
         return view('employment_changes.show', compact('change'));
     }
@@ -64,9 +97,16 @@ class EmploymentChangeController extends Controller
      */
     public function edit($id)
     {
-        $change = EmploymentChange::findOrFail($id);
+        $employmentchange = EmploymentChange::findOrFail($id);
+        $jobTitles = JobTitle::findOrFail($id);
+        $departments = Department::findOrFail($id);
+        $relationships = Relationship::findOrFail($id);
+        $institutions = Institution::findOrFail($id);
+        $certificates = Certificate::findOrFail($id);
+        $courses = Certificate::findOrFail($id);
+        $changeTypes = ChangeType::findOrFail($id);
 
-        return view('employee_changes.edit', compact('change'));
+        return view('biodata.edit', compact('change', 'jobTitles', 'departments', 'relationships', 'institutions', 'certificates', 'changeTypes', 'courses'));
     }
 
     /**
@@ -78,9 +118,13 @@ class EmploymentChangeController extends Controller
      */
     public function update(UpdateEmploymentChangeRequest $request, $id)
     {
-        $change = EmploymentChange::findOrFail($id);
-
-        $change->update($request->validated());
+        $validated = $request->validated();
+        $employmentchange = EmploymentChange::findOrFail($id);
+        
+       
+        $employmentchange->update($validated);
+        return redirect()->route('personal.details.edit')
+                        ->with('success','Employment Details updated successfully');
     }
 
     /**

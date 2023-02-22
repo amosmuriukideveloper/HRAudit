@@ -14,8 +14,9 @@ class PayslipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
+        $id = $id;
         $payslips = Payslip::all();
         return view('payslip.index', compact('payslip'));
     }
@@ -37,11 +38,11 @@ class PayslipController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatePayslipRequest $request)
+    public function store(CreatePayslipRequest $request, $id)
     {
-        $validated = $request->validated();
+        $request->validated();
         $payslip = new Payslip([
-            'personal_detail_id' => $request->get('personal_detail_id'),
+            'personal_detail_id' => $id,
             'payment_month' => $request->get('payment_month'),
             'document_name' => $request->get('document_name'),
         ]);
@@ -70,9 +71,9 @@ class PayslipController extends Controller
      */
     public function edit($id)
     {
-        $payslip = Payslip::where('id','=',$id)->firstOrFail();
+        $payslip = Payslip::where('id','=',$id)->first();
        
-        return view('payslip.edit', compact('payslip'));
+        return view('biodata.edit', compact('payslip'));
     }
 
     /**
@@ -88,14 +89,8 @@ class PayslipController extends Controller
         $validated = $request->validated();
         $payslip = Payslip::where('id','=',$id)->firstOrFail();
 
-        $payslip = new Payslip([
-            'personal_detail_id' => $request->get('personal_detail_id'),
-            'payment_month' => $request->get('payment_month'),
-            'document_name' => $request->get('document_name'),
-        ]);
-
-        $payslip->update();
-       
+        $payslip->update($validated);
+        return view('personal.details.edit', compact('payslip'));
         
     }
 

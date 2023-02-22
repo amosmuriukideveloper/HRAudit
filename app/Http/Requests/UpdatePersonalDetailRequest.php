@@ -30,7 +30,7 @@ class UpdatePersonalDetailRequest extends FormRequest
             'age' => 'required|integer',
             'gender' => 'required|string|max:255',
             'disability_status_id' => 'required|integer',
-            'passport_photo' => 'required|image',
+            'passport_photo' => 'sometimes',
             'tel_mobile' => 'required|string|max:255',
             'ethnicity_id' => 'required|integer'
         ];

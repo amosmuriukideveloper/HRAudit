@@ -12,9 +12,25 @@ class EmploymentChange extends Model
     protected $table = 'employment_changes';
 
     protected $fillable = [
-        'personal_detail_id', 
-        'change_type', 
-        'details'
+        'personal_detail_id',
+        'relative_id',
+        'name',
+        'id_no',
+        'job_title_id',
+        'relationship_id',
+        'department_id',
+        'study_leave_id',
+        'start_date',
+        'end_date',
+        'institution_id',
+        'course_id',
+        'certificate_id',
+        'date', 
+        'approving_supervisor',
+        'change_type_id',
+
+            
+            
     ];
 
     public function personal_detail()

@@ -17,7 +17,7 @@ class JobTitleController extends Controller
     public function index()
     {
         $jobTitles = JobTitle::all();
-        return view('jobGrade.index', compact('jobTitle'));
+        return view('jobtitle.index', compact('jobTitles'));
     }
 
     /**
@@ -27,7 +27,8 @@ class JobTitleController extends Controller
      */
     public function create()
     {
-        return view('jobTitle.create');
+        $jobTitles = JobTitle::all();
+        return view('jobtitle.index', compact('jobTitles'));
     }
 
     /**
@@ -38,7 +39,15 @@ class JobTitleController extends Controller
      */
     public function store(CreateJobTitleRequest $request)
     {
-        JobTitle::create($request->all());
+        $request->validated();
+        $jobTitle = new JobTitle ([
+            'name' => $request->name,
+            
+        ]);
+        $jobTitle->save();
+
+        return redirect()->route('job.title.index')
+            ->withSuccess(__('Job Title created successfully.'));
     }
 
     /**
@@ -49,7 +58,7 @@ class JobTitleController extends Controller
      */
     public function show(JobTitle $jobTitle)
     {
-        return view('jobTitle.show',compact('jobTitle'));
+        // return view('jobTitle.show',compact('jobTitle'));
     }
 
     /**
@@ -60,7 +69,7 @@ class JobTitleController extends Controller
      */
     public function edit(JobTitle $jobTitle)
     {
-        return view('jobTitle.edit',compact('jobTitle'));
+        return view('jobtitle.edit',compact('jobTitle'));
 
     }
 
@@ -73,7 +82,13 @@ class JobTitleController extends Controller
      */
     public function update(UpdateJobTitleRequest $request, JobTitle $jobTitle)
     {
-        $jobTitle->update($request->all());
+        $validated = $request->validated();
+        $jobTitle = JobTitle::findOrFail($jobTitle);
+
+
+        $jobTitle->update($validated);
+        return redirect()->route('job.title.index')
+            ->withSuccess(__('Job Title updated successfully.'));
 
     }
 

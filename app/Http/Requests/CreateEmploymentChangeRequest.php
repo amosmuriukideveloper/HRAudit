@@ -24,9 +24,21 @@ class CreateEmploymentChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'personal_detail_id' => 'required|integer',
-            'change_type' => 'required|string|max:255',
-            'details' => 'required|string',
+            'relative_id' => 'integer',
+            'name' => 'required|string',
+            'id_no' => 'required|string',
+            'job_title_id' => 'required|integer',
+            'relationship_id' => 'required|integer',
+            'department_id' => 'required|integer',
+            'study_leave_id' => 'required|integer',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'institution_id' => 'required|integer', 
+            'course_id' => 'required|integer',
+            'certificate_id' => 'required|integer',
+            'date' => 'required|date',
+            'approving_supervisor' => 'string',
+            'change_type_id' => 'required|integer',
         ];
     }
 }

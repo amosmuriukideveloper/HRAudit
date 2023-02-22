@@ -18,7 +18,7 @@ class CertificateController extends Controller
     {
         $certificates = Certificate::all();
 
-        return view('certificate.index', compact('certificate'));
+        return view('certificate.index', compact('certificates'));
     }
 
     /**
@@ -28,7 +28,9 @@ class CertificateController extends Controller
      */
     public function create()
     {
-        return view('certificate.create');
+        $certificates = Certificate::get();
+
+        return view('certificate.index', compact('certificates'));
     }
 
     /**
@@ -45,6 +47,8 @@ class CertificateController extends Controller
         ]);
 
         $certificate = Certificate::create($validatedData);
+        return redirect()->route('certificate.index')
+        ->withSuccess(__('Certificate created successfully.'));
     }
 
     /**
@@ -55,7 +59,9 @@ class CertificateController extends Controller
      */
     public function show(Certificate $certificate)
     {
-        return view('certificate.show', compact('certificate'));
+        // $certificate = Certificate::get();
+
+        // return view('certificate.show', compact('certificate'));
     }
 
     /**
@@ -64,8 +70,10 @@ class CertificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Certificate $certificate)
+    public function edit(Certificate $certificate, $id)
     {
+        $certificate = Certificate::findOrFail($id);
+
         return view('certificate.edit', compact('certificate'));
     }
 
@@ -85,6 +93,8 @@ class CertificateController extends Controller
         ]);
 
         $certificate->update($validatedData);
+        return redirect()->route('certificate.index')
+        ->withSuccess(__('Certificate updated successfully.'));
     }
 
     /**

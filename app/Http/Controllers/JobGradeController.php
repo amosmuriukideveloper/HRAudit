@@ -16,8 +16,8 @@ class JobGradeController extends Controller
      */
     public function index()
     {
-        $jobGrade = JobGrade::all();
-        return view('jobGrade.index', compact('jobGrade'));
+        $jobGrades = JobGrade::all();
+        return view('jobgrade.index', compact('jobGrades'));
     }
 
     /**
@@ -27,8 +27,8 @@ class JobGradeController extends Controller
      */
     public function create()
     {
-        return view('jobGrade.create');
-
+        $jobGrades = JobGrade::get();
+        return view('jobgrade.index', compact('jobGrades'));
     }
 
     /**
@@ -39,7 +39,13 @@ class JobGradeController extends Controller
      */
     public function store(CreateJobGradeRequest $request)
     {
-        JobGrade::create($request->all());
+        $request->validated();
+        $jobGrade = JobGrade::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('job.grade.index')
+            ->withSuccess(__('Job Grade created successfully.'));
     }
 
     /**
@@ -50,7 +56,7 @@ class JobGradeController extends Controller
      */
     public function show(JobGrade $jobGrade)
     {
-        return view('jobGrade.show',compact('jobGrade'));
+        // return view('jobGrade.show',compact('jobGrade'));
     }
 
     /**
@@ -61,7 +67,7 @@ class JobGradeController extends Controller
      */
     public function edit(JobGrade $jobGrade)
     {
-        return view('jobGrade.edit',compact('jobGrade'));
+        return view('jobgrade.edit',compact('jobGrade'));
 
     }
 
@@ -74,7 +80,16 @@ class JobGradeController extends Controller
      */
     public function update(UpdateJobGradeRequest $request, JobGrade $jobGrade)
     {
-        $jobGrade->update($request->all());
+        $request->validated();
+        $jobGrade = JobGrade::findOrFail($jobGrade);
+
+
+        $jobGrade->update([
+            'name' => $request->name,
+              ]);
+
+        return redirect()->route('job.grade.index')
+            ->withSuccess(__('Job Grade updated successfully.'));
     
     }
 
@@ -84,8 +99,16 @@ class JobGradeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(JobGrade $jobGrade)
+    public function destroy($id)
     {
-        $jobGrade->delete();
+        
+        $jobGrade = JobGrade::find($id);
+        
+        if ($jobGrade->delete()) {
+            return redirect()->route('job.grade.index')
+            ->withSuccess(__('Job Grade deleted successfully.'));
+        }
+        
+       
     }
 }

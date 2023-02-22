@@ -18,6 +18,7 @@ class RelationshipController extends Controller
     public function index()
     {
         $relationships = Relationship::all();
+        return view('relationship.index', compact('relationships'));
     }
 
     /**
@@ -27,7 +28,8 @@ class RelationshipController extends Controller
      */
     public function create()
     {
-        return view('relationships.create');
+        $relationships = Relationship::all();
+        return view('relationship.index', compact('relationships'));
 
     }
 
@@ -45,6 +47,8 @@ class RelationshipController extends Controller
             'name' => $request->get('name'),
         ]);
         $relationship->save();
+        return redirect()->route('relationship.index')
+        ->withSuccess(__('Relationship created successfully.'));
     }
 
     /**
@@ -69,7 +73,7 @@ class RelationshipController extends Controller
     public function edit($id)
     {
         $relationship = Relationship::where('id','=',$id)->firstOrFail();
-        return view('relationships.edit', compact('relationships'));
+        return view('relationship.edit', compact('relationships'));
 
     }
 
@@ -86,6 +90,8 @@ class RelationshipController extends Controller
         $relationship =  Relationship::where('id','=',$id)->firstOrFail();
         $relationship->name = $request->get('name');
         $relationship->update();
+        return redirect()->route('relationship.index')
+        ->withSuccess(__('Relationship created successfully.'));
 
     }
 
