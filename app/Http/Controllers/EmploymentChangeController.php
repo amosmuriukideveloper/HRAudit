@@ -6,6 +6,7 @@ use App\Http\Requests\CreateEmploymentChangeRequest;
 use App\Http\Requests\UpdateEmploymentChangeRequest;
 use App\Models\Certificate;
 use App\Models\ChangeType;
+use App\Models\Course;
 use App\Models\Department;
 use App\Models\EmploymentChange;
 use App\Models\Institution;
@@ -21,7 +22,7 @@ class EmploymentChangeController extends Controller
      */
     public function index()
     {
-        $changes = EmploymentChange::all();
+        $changes = EmploymentChange::get();
         
 
         return view('employment.change.index', compact('changes'));
@@ -32,7 +33,7 @@ class EmploymentChangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($id=null)
 
     {
         $id = $id;
@@ -41,9 +42,8 @@ class EmploymentChangeController extends Controller
         $relationships = Relationship::all();
         $institutions = Institution::all();
         $certificates = Certificate::all();
-        $courses = Certificate::all();
-        $changeTypes = ChangeType::all();
-        return view('forms.third', compact ('jobTitles', 'changeTypes', 'departments', 'courses', 'relationships', 'institutions', 'certificates', 'id' ));
+        $courses = Course::all();
+        return view('forms.third', compact ('jobTitles', 'departments', 'courses', 'relationships', 'institutions', 'certificates', 'id' ));
     }
 
     /**
@@ -53,27 +53,32 @@ class EmploymentChangeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateEmploymentChangeRequest $request, $id)
+    
     {
         
-        $employmentchange = EmploymentChange::create($request->validated());
-        $employmentchange = new EmploymentChange([
+       
+        $request->validated();
+        $employmentchange = EmploymentChange::create([
             'personal_detail_id' => $id,
-            'relative_id' => $request->relative,
+            'relative_id' => $request->relative_id,
             'name' =>$request->name,
-            'job_title_id' => $request->job_title,
-            'department' => $request->department,
+            'id_no' =>$request->id_no,
+            'job_title_id' => $request->job_title_,
+            'relationship' => $request->relationship,
+            'department_id' => $request->department_id,
             'study_leave' => $request->study_leave,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'institution_id' => $request->institution,
+            'start_date' => $request->start_date.'-01',
+            'end_date' => $request->end_date.'-01',
+            'institution' => $request->institution,
             'course' => $request->course,
-            'certificate_id' => $request->certificate,
-            'date' => $request ->date,
-            'change_type_id' => $request ->change_type,
+            'certificate' => $request->certificate,
+            'date' => $request ->date.'-01',
+            'approving_signatory' => $request ->approving_signatory,
         ]);
         $employmentchange->save();
+        
 
-        return redirect('payroll.details.create')->with('success', 'Employment Changes/Movements have been added');
+        return redirect()->route('payslip.next', $id)->with('success', 'Employment Changes/Movements have been added');
     }
 
     /**
@@ -86,7 +91,7 @@ class EmploymentChangeController extends Controller
     {
         $employmentchange = EmploymentChange::findOrFail($id);
 
-        return view('employment_changes.show', compact('change'));
+        return view('employment.changes.show', compact('change'));
     }
 
     /**
@@ -104,9 +109,9 @@ class EmploymentChangeController extends Controller
         $institutions = Institution::findOrFail($id);
         $certificates = Certificate::findOrFail($id);
         $courses = Certificate::findOrFail($id);
-        $changeTypes = ChangeType::findOrFail($id);
+        
 
-        return view('biodata.edit', compact('change', 'jobTitles', 'departments', 'relationships', 'institutions', 'certificates', 'changeTypes', 'courses'));
+        return view('biodata.edit', compact('change', 'jobTitles', 'departments', 'relationships', 'institutions', 'certificates',  'courses'));
     }
 
     /**

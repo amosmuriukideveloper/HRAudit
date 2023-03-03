@@ -24,21 +24,21 @@ class UpdateEmploymentChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'relative_id' => 'required|integer',
+            'relative_id' => 'nullable|integer',
             'name' => 'required|string',
             'id_no' => 'required|string',
-            'job_title_id' => 'required|integer',
-            'relationship_id' => 'required|integer',
-            'department_id' => 'required|integer',
-            'study_leave_id' => 'required|integer',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'institution_id' => 'required|integer', 
-            'course_id' => 'required|integer',
-            'certificate_id' => 'required|integer',
-            'date' => 'required|date',
-            'approving_supervisor' => 'required|string',
-            'change_type_id' => 'required|integer',
+            'job_title_id' => 'nullable|string',
+            'relationship' => 'nullable|integer',
+            'department_id' => 'nullable|integer',
+            'study_leave' => 'sometimes',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'institution' => 'required|integer', 
+            'course' => 'required|integer',
+            'certificate' => 'required|integer',
+            'date' => 'nullable|date',
+            'approving_signatory' => 'nullable|string',
+            'comments' => 'nullable|string|max:255',
         ];
     }
 }

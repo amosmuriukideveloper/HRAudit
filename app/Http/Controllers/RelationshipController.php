@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRelationshipRequest;
 use App\Http\Requests\UpdateRelationshipRequest;
-use App\Models\PersonalDetail;
 use App\Models\Relationship;
-use Illuminate\Http\Request;
 
 class RelationshipController extends Controller
 {
@@ -60,7 +58,7 @@ class RelationshipController extends Controller
     public function show($id)
     {
         $relationship = Relationship::where('id','=',$id)->firstOrFail();
-        return view('relationships.show', compact('relationships'));
+        return view('relationships.show', compact('relationship'));
 
     }
 
@@ -73,7 +71,7 @@ class RelationshipController extends Controller
     public function edit($id)
     {
         $relationship = Relationship::where('id','=',$id)->firstOrFail();
-        return view('relationship.edit', compact('relationships'));
+        return view('relationship.edit', compact('relationship'));
 
     }
 
@@ -85,11 +83,11 @@ class RelationshipController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRelationshipRequest $request, $id)
-    {
+    { 
         $validated = $request->validated();
-        $relationship =  Relationship::where('id','=',$id)->firstOrFail();
-        $relationship->name = $request->get('name');
-        $relationship->update();
+        $relationship =  Relationship::findOrFail($id);
+        
+        $relationship->update($validated);
         return redirect()->route('relationship.index')
         ->withSuccess(__('Relationship created successfully.'));
 
@@ -101,9 +99,14 @@ class RelationshipController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Relationship $relationship, $id)
+    public function destroy($id)
     {
-        $relationship->delete();
+        
+        $relationship = Relationship::find($id);
+        if ($relationship->delete()) {
+            return redirect()->route('relationship.index')
+            ->withSuccess(__('Job Grade deleted successfully.'));
+        }
         
     }
 }

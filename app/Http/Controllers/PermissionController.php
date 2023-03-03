@@ -100,4 +100,8 @@ class PermissionController extends Controller
             ->with('success','Permission deleted successfully');
         }
     }
+
+    public function reportPersonal(){
+        return view('forms.report');
+    }
 }

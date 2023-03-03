@@ -13,7 +13,7 @@
 
   
 
-                <form method="PUT" action="{{ route('institutions.update', $institution) }}">
+                <form method="PUT" action="{{ route('institution.update', $institution) }}">
                 @method('patch')
                 @csrf
             <div style="min-width: 400px">

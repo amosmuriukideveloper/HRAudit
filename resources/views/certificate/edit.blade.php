@@ -23,10 +23,9 @@
                                 <input type="text" name="name" id="name" value="{{ $certificate->name }}" class="form-input rounded-md shadow-sm mt-1 block w-full" required>
                             </div>
 
-                            <div class="flex items-center justify-end mt-4">
-                                <x-button class="ml-3">
-                                    {{ __('Update') }}
-                                </x-button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal"><i class="mdi mdi-close"></i>Close</button>
+                                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-checkbox-marked-circle-outline"></i>Update Certificate</button>
                             </div>
                         </form>
                     </div>

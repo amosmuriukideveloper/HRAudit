@@ -51,7 +51,7 @@ class ProbationStatusController extends Controller
      * @param  \App\Models\ProbationStatus  $probationStatus
      * @return \Illuminate\Http\Response
      */
-    public function show(ProbationStatus $probation, $id)
+    public function show(ProbationStatus $id)
     {
         $probation = ProbationStatus::findOrFail($id);
         return view('probation.status.show', compact('probation'));
@@ -63,7 +63,7 @@ class ProbationStatusController extends Controller
      * @param  \App\Models\ProbationStatus  $probationStatus
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProbationStatus $probation, $id)
+    public function edit(ProbationStatus $id)
     {
         $probation = ProbationStatus::findOrFail($id);
         return view('probation.edit', compact('probation')); 
@@ -76,16 +76,13 @@ class ProbationStatusController extends Controller
      * @param  \App\Models\ProbationStatus  $probationStatus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProbationStatus $probation, $id)
+    public function update(Request $request, $id)
     {
-        $request->validated();
+        $validated = $request->validated();
         $probation = ProbationStatus::findOrFail($id);
 
 
-        $probation->update([
-            'name' => $request->name,
-            
-        ]);
+        $probation->update($validated);
 
         return redirect()->route('probation.status.index')
             ->withSuccess(__('Probation Status updated successfully.'));
@@ -98,9 +95,12 @@ class ProbationStatusController extends Controller
      * @param  \App\Models\ProbationStatus  $probationStatus
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProbationStatus $probation, $id)
+    public function destroy(ProbationStatus $id)
     {
         $probation = ProbationStatus::findOrFail($id);
-        $probation->delete();
+        if ($probation->delete()) {
+            return redirect()->route('probation.status.index')
+            ->withSuccess(__('Job Grade deleted successfully.'));
+        }
     }
 }

@@ -13,10 +13,15 @@ class EmployeeCertificate extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'employee_id',
-        'certificates_id'
+        'personal_detail_id',
+        'name',
+        'index_number',
+        'school',
+        'certificate_number',
+        'comments'
     ];
 
+    
     public function employee()
     {
         return $this->belongsTo(PersonalDetail::class, 'employee_id');

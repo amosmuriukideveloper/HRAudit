@@ -6,6 +6,7 @@ use App\Http\Requests\CreateEmploymentDetailRequest;
 use App\Http\Requests\UpdateEmploymentDetailRequest;
 use App\Models\Certificate;
 use App\Models\Department;
+use App\Models\EmployeeWorkExperience;
 use App\Models\EmploymentDetail;
 use App\Models\EmploymentTerm;
 use App\Models\JobGrade;
@@ -38,16 +39,17 @@ class EmploymentDetailController extends Controller
      */
     public function create($id=null)
     {
+       
         $id = $id;
-        $departments = Department::get();
+        $departments = Department::all();
         $probations = ProbationStatus::all();
         $positions = Position::all();
         $jobGrades = JobGrade::all();
         $employmentTerms = EmploymentTerm::all();
-        $certificates = Certificate::all();
+       
         $employmentDetails = EmploymentDetail::all();
         
-        return view('forms.second', compact('employmentDetails', 'departments', 'employmentTerms', 'probations', 'positions', 'jobGrades', 'certificates', 'id'));
+        return view('forms.second', compact('employmentDetails', 'departments', 'employmentTerms', 'probations', 'positions', 'jobGrades', 'id'));
     
     }
 
@@ -59,24 +61,39 @@ class EmploymentDetailController extends Controller
      */
     public function store(CreateEmploymentDetailRequest $request, $id)
     {
-        $departments = Department::get();
+        // $departments = Department::get();
+       
         $request->validated();
+        $positions = $request->position;
+        // dd($request->employment_year);
         
         $employmentDetail = EmploymentDetail::create([
             'personal_detail_id' => $id,
             'department_id' => $request->department_id,
-            'appointment_letter_id' => $request->appointment_letter_id,
+            'appointment_letter' => $request->appointment_letter,
             'employment_term_id' => $request->employment_term_id,
             'probation_statuses_id' => $request->probation_statuses_id,
-            'position_id' => $request->position_id,
-            'job_grade_id' => $request->job_grade_id,
-            'employee_certificate' => $request->employee_certificate,
+                      
         ]);
 
-       
         $employmentDetail->save();
+            
+            foreach($positions as $key => $position) {
+           
+                $employeeworkexperience = EmployeeWorkExperience::create([
+                    'personal_detail_id' => $id,
+                    'position'=>$position,
+                    'job_grade_id'=>$request->job_grade_id[$key],
+                    'employment_year' => date('Y-m-d'),
 
-        return redirect()->route('employment.change.next', $id)->with('success', 'Employment Details have been added');
+                ]);
+       
+        $employeeworkexperience->save();
+       
+
+    }
+
+        return redirect()->route('employee.certificate.next', $id)->with('success', 'Employment Details have been added');
     }
 
     /**
@@ -106,9 +123,9 @@ class EmploymentDetailController extends Controller
         $employmentTerms = EmploymentTerm::findOrFail($id);
         $departments = Department::findOrFail($id);
         $positions = Position::findOrFail($id);
-        $certificates = Certificate::findOrFail($id);
+       
 
-        return view('biodata.edit', compact('employmentDetail', 'personalDetail', 'probations', 'jobGrades', 'departments', 'employmentTerms', 'positions', 'certificates'));
+        return view('biodata.edit', compact('employmentDetail', 'personalDetail', 'probations', 'jobGrades', 'departments', 'employmentTerms', 'positions'));
     }
 
     /**
@@ -143,4 +160,6 @@ class EmploymentDetailController extends Controller
 
         $employeeDetail->delete();
     }
+
+    
 }

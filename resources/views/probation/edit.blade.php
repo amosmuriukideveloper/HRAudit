@@ -12,7 +12,7 @@
             <div class="card-box">
     
         <div class="modal-content" style="min-width: 400px">
-            <form method="POST" action="{{ route('probation.status.update', $probation->id) }}">
+            <form method="POST" action="{{ route('probation.status.update', $probation) }}">
                 @csrf
                 @method('PUT')
                 <div class="modal-header header-title">
@@ -42,6 +42,5 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+
 </x-app-layout>    

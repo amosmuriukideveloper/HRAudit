@@ -81,16 +81,14 @@ class EmploymentTermController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmploymentTermRequest $request, EmploymentTerm $employmentTerm)
+    public function update(UpdateEmploymentTermRequest $request, $id)
     {
-        $request->validated();
-        $employmentTerm = EmploymentTerm::findOrFail($employmentTerm);
+        $validated = $request->validated();
+        $employmentTerm = EmploymentTerm::findOrFail($id);
 
 
-        $employmentTerm->update([
-            'name' => $request->name,
-            
-        ]);
+        $employmentTerm->update($validated);
+
 
         return redirect()->route('employment.term.index')
             ->withSuccess(__('Employment Term updated successfully.'));

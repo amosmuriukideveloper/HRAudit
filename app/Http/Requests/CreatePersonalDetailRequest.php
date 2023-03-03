@@ -29,10 +29,10 @@ class CreatePersonalDetailRequest extends FormRequest
             'id_no' => 'required|string|max:255',
             'age' => 'required|integer',
             'gender' => 'required|string|max:255',
-            'disability_status_id' => 'required|integer',
-            'passport_photo' => 'required|image',
+            'disability_status' => 'required|string',
+            'passport_photo' => 'nullable|string',
             'tel_mobile' => 'required|string|max:255',
-            'ethnicity_id' => 'required|integer'
+            'ethnicity' => 'required|integer'
         ];
     }
 }

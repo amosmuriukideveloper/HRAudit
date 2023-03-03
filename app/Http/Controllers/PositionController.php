@@ -99,6 +99,9 @@ class PositionController extends Controller
     public function destroy($id)
     {
         $position = Position::findOrFail($id);
-        $position->delete();
+        if ($position->delete()) {
+            return redirect()->route('relationship.index')
+            ->withSuccess(__('Job Grade deleted successfully.'));
+        }
     }
 }

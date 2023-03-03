@@ -44,7 +44,7 @@ class InstitutionnController extends Controller
             'name' => $request->name,
             'address' => $request->address,
         ]);
-
+        $institution->save();
         return redirect()->route('institution.index')
             ->withSuccess(__('Institution created successfully.'));
     }
@@ -68,6 +68,8 @@ class InstitutionnController extends Controller
      */
     public function edit($id)
     {
+        
+        $institution = Institution::findOrFail($id);
         return view('institution.edit',compact('institution'));
     }
 
@@ -78,17 +80,13 @@ class InstitutionnController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInstitutionRequest $request, $institution)
+    public function update(UpdateInstitutionRequest $request, $id)
     {
-        $request->validated();
-        $institution = Institution::findOrFail($institution);
+        $validated = $request->validated();
+        $institution = Institution::findOrFail($id);
 
 
-        $institution->update([
-            'name' => $request->name,
-            'address' => $request->address,
-            
-        ]);
+        $institution->update($validated);
 
         return redirect()->route('institution.index')
             ->withSuccess(__('Institution updated successfully.'));

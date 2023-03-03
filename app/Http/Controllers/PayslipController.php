@@ -18,7 +18,7 @@ class PayslipController extends Controller
     {
         $id = $id;
         $payslips = Payslip::all();
-        return view('payslip.index', compact('payslip'));
+        return view('payslip.index', compact('payslips'));
     }
 
     /**
@@ -26,13 +26,15 @@ class PayslipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=null)
     {
-        return view('payslip.create');
+        $id = $id;
+        $payslips = Payslip::all();
+        return view('forms.fourth', compact('payslips', 'id'));
 
     }
 
-    /**
+    /**QW2      
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,14 +42,38 @@ class PayslipController extends Controller
      */
     public function store(CreatePayslipRequest $request, $id)
     {
-        $request->validated();
-        $payslip = new Payslip([
-            'personal_detail_id' => $id,
-            'payment_month' => $request->get('payment_month'),
-            'document_name' => $request->get('document_name'),
-        ]);
+        
+        {
+            $request->validate();
+                
+            $payments = $request->date;
+        
+            foreach ($payments as $key => $payment) {
+                $employeePayment = Payslip::create([
+                    'personal_detail_id' => $id,
+                    'date' => $payment,
+                    'pf_number' => $request->pf_number[$key],
+                    'name' => $request->name[$key],
+                    'station_name' => $request->station_name[$key],
+                    'station_code' => $request->station_code[$key],
+                    'desig_code' => $request->desig_code[$key],
+                    'desig_name' => $request->desig_name[$key],
+                    'id_no' => $request->id_no[$key],
+                    'phone' => $request->phone[$key],
+                    'email' => $request->email[$key],
+                    'message' => $request->message[$key],
+                ]);
+        
+                $employeePayment->save();
+            }
+        
+            return view ('biodata.index', $id)->with('success', 'Payment Details have been added');
+        }
+        
 
-        $payslip->save();
+       
+       
+
     }
 
     /**
@@ -90,7 +116,8 @@ class PayslipController extends Controller
         $payslip = Payslip::where('id','=',$id)->firstOrFail();
 
         $payslip->update($validated);
-        return view('personal.details.edit', compact('payslip'));
+        return redirect()->route('personal.details.create')
+        ->with('success','Payment Details updated successfully');
         
     }
 

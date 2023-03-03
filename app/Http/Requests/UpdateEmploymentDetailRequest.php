@@ -26,14 +26,12 @@ class UpdateEmploymentDetailRequest extends FormRequest
     {
         return [
             'department_id' =>'required|integer',
-            
-            'appointment_letter_id' => 'required|string',
+            'appointment_letter' => 'nullable',
             'employment_term_id' => 'required|integer',
             'probation_statuses_id' => 'required|integer',
-            'position_id' => 'required|integer',
-            'job_grade_id' => 'required|integer',
-            'employee_certificate' => 'required|string'
-
+            'position' => 'integer',
+            'job_grade_id' => 'integer',
+            'comments' => 'nullable|string|max:255',
         ];
     }
 }

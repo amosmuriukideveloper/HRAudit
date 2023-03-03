@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateJobGradeRequest;
 use App\Http\Requests\UpdateJobGradeRequest;
 use App\Models\JobGrade;
-use Illuminate\Http\Request;
 
 class JobGradeController extends Controller
 {
@@ -65,8 +64,9 @@ class JobGradeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(JobGrade $jobGrade)
+    public function edit(JobGrade $id)
     {
+        $jobGrade = JobGrade::findOrFail($id);
         return view('jobgrade.edit',compact('jobGrade'));
 
     }
@@ -78,15 +78,13 @@ class JobGradeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJobGradeRequest $request, JobGrade $jobGrade)
+    public function update(UpdateJobGradeRequest $request, $id)
     {
-        $request->validated();
-        $jobGrade = JobGrade::findOrFail($jobGrade);
+        $validated = $request->validated();
+        $jobGrade = JobGrade::findOrFail($id);
 
 
-        $jobGrade->update([
-            'name' => $request->name,
-              ]);
+        $jobGrade->update($validated);
 
         return redirect()->route('job.grade.index')
             ->withSuccess(__('Job Grade updated successfully.'));

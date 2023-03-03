@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('change_type', function (Blueprint $table) {
+        Schema::create('employee_work_experience', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('address');
+            $table->unsignedBigInteger('personal_detail_id');
+            $table->string('position');
+            $table->unsignedBigInteger('job_grade_id')->nullable();
+            $table->date('employment_year')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('change_type');
+        Schema::dropIfExists('employee_work_experience');
     }
 };

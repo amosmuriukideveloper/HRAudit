@@ -33,7 +33,7 @@
                     <th scope="col">Payroll Number</th>
                     <th scope="col">Age</th>
                     <th scope="col">Gender</th>
-                    <th scope="col">Disability Status</th>
+                    {{-- <th scope="col">Disability Status</th> --}}
                     <th scope="col">Tel/Mobile</th>
                     <th scope="col">Ethnicity</th>
                     <th></th>
@@ -49,9 +49,9 @@
                         <td>{{ $detail->payroll_number }}</td>
                         <td>{{ $detail->age }}</td>
                         <td>{{ $detail->gender }}</td>
-                        <td>{{ $detail->disabilityStatus->name }}</td>
+                        {{-- <td>{{ $detail->disabilityStatus->name }}</td> --}}
                         <td>{{ $detail->tel_mobile }}</td>
-                        <td>{{ $detail->ethnicity->name }}</td>
+                        <td>{{ $detail->ethnicity }}</td>
                         <td>
                             <div class="row">
                             <div class="col-md-3">

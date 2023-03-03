@@ -17,7 +17,7 @@ class EmployeeCertificateController extends Controller
     public function index()
     {
         $employeeCertificates = EmployeeCertificate::all();
-        return view('employeeCertificate.index', compact('employeeCertificate'));
+        return view('forms.cert', compact('employeeCertificate'));
     }
 
     /**
@@ -25,9 +25,11 @@ class EmployeeCertificateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=null)
     {
-        return view('employeeCertificate.create');
+       $id = $id;
+       $employeeCertificates = EmployeeCertificate::all();
+        return view('forms.cert', compact('employeeCertificates', 'id'));
     }
 
     /**
@@ -36,19 +38,30 @@ class EmployeeCertificateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateEmployeeCertificateRequest $request)
+    public function store(CreateEmployeeCertificateRequest $request, $id)
     {
-        $request->validated();
         
-        $employeeCertificate = new Certificate([
-            'employee_id' => 'required|integer',
-            'certificates_id' => 'required|integer',
-        ]);
+       
+        $request->validated();
+        $certificates = $request->name;
+      
+        
+        foreach($certificates as $key => $certificate) {
+           
+            $employeeCertificate = EmployeeCertificate::create([
+                'personal_detail_id' => $id,
+                'name' =>$certificate,
+                'index_number' =>$request->index_number[$key],
+                'school' =>$request->school[$key],
+                'certificate_number' =>$request->certificate_number[$key],
+            ]);
+           
 
         $employeeCertificate->save();
-
         
     }
+    return redirect()->route('employment.change.next', $id)->with('success', 'Employee Certificate Details have been added');
+}
 
     /**
      * Display the specified resource.
@@ -58,7 +71,7 @@ class EmployeeCertificateController extends Controller
      */
     public function show(EmployeeCertificate $employeeCertificate)
     {
-        return view('employeeCertificate.show', compact('employeeCertificate'));
+        // return view('employeeCertificate.show', compact('employeeCertificate'));
 
     }
 
@@ -72,7 +85,7 @@ class EmployeeCertificateController extends Controller
     {
         $employeeCertificate = EmployeeCertificate::findOrFail($id);
 
-        return view('employeeCertificate.edit', compact('employeeCertificate'));
+        return view('biodata.edit', compact('employeeCertificate'));
     }
 
     /**
@@ -86,12 +99,11 @@ class EmployeeCertificateController extends Controller
     {
         $validated = $request->validated();
         $employeeCertificate =  EmployeeCertificate::where('id','=',$id)->firstOrFail();
-        $employeeCertificate = new EmployeeCertificate([
-            'employee_id' => 'required|integer',
-            'certificates_id' => 'required|integer',
-        ]);
+        $employeeCertificate->update($validated);
 
-        $employeeCertificate->update();
+        return redirect()->route('personal.details.edit')
+                        ->with('success','Employee Certifixate Details updated successfully');
+        
 
     }
 
@@ -101,8 +113,9 @@ class EmployeeCertificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EmployeeCertificate $employeeCertificate)
+    public function destroy($id)
     {
+        $employeeCertificate = EmployeeCertificate::findOrFail($id);
         $employeeCertificate->delete();
     }
 }

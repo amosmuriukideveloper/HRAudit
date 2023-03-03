@@ -16,20 +16,34 @@ class PersonalDetail extends Model
         'id_no',
         'age',
         'gender',
-        'disability_status_id',
+        'disability_status',
         'passport_photo', 
         'tel_mobile',
-        'ethnicity_id'
+        'ethnicity',
+        'comments'
     ];
 
-    public function disabilityStatus()
-    {
-        return $this->belongsTo(DisabilityStatus::class);
-    }
-
+   
     public function ethnicity()
     {
         return $this->belongsTo(Ethnicity::class);
+    }
+
+    public function employmentDetails()
+    {
+        return $this->hasOne(EmploymentDetail::class, 'personal_detail_id');
+    }
+
+    
+    public function employmentChanges()
+    {
+        return $this->hasOne(EmploymentChange::class, 'personal_detail_id');
+    }
+
+    
+    public function payslip()
+    {
+        return $this->hasOne(Payslip::class, 'personal_detail_id');
     }
 
 }

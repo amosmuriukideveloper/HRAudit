@@ -12,9 +12,21 @@ class Payslip extends Model
 
     protected $fillable = [
         'personal_detail_id', 
-        'payment_month', 
-        'document_name'
+        'payment_month',
+        'pf_number',
+        'name',
+        'station_name',
+        'station_code',
+        'desig_code',
+        'desig_name',
+        'id_no',
+        'tax_pin',
+        'basic_salary',
+        'total_earnings',
+        'comments'
+        
     ];
+    
 
     public function personal_detail()
     {

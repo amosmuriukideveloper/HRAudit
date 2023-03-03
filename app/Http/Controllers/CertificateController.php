@@ -41,12 +41,12 @@ class CertificateController extends Controller
      */
     public function store(CreateCertificateRequest $request)
     {
-        $validatedData = $request->validate([
-            
-            'name' => 'required|string|max:255',
+        $request->validated();
+        $certificate = Certificate::create([
+            'name' => 'nullable|string|max:255',
         ]);
 
-        $certificate = Certificate::create($validatedData);
+        $certificate->save();
         return redirect()->route('certificate.index')
         ->withSuccess(__('Certificate created successfully.'));
     }
@@ -70,7 +70,7 @@ class CertificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Certificate $certificate, $id)
+    public function edit($id)
     {
         $certificate = Certificate::findOrFail($id);
 
@@ -84,15 +84,13 @@ class CertificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCertificateRequest $request, Certificate $certificate)
+    public function update(UpdateCertificateRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            
-            'name' => 'required|string|max:255',
-            
-        ]);
-
-        $certificate->update($validatedData);
+        $validated = $request->validated();
+        $certificate = Certificate::findOrFail($id);
+        
+       
+        $certificate->update($validated);
         return redirect()->route('certificate.index')
         ->withSuccess(__('Certificate updated successfully.'));
     }

@@ -17,6 +17,7 @@ use App\Models\Ethnicity;
 use App\Models\Institution;
 use App\Models\JobGrade;
 use App\Models\JobTitle;
+use App\Models\Payslip;
 use App\Models\PersonalDetail;
 use App\Models\Position;
 use App\Models\ProbationStatus;
@@ -32,7 +33,7 @@ class PersonalDetailController extends Controller
      */
     public function index()
     {
-        $personalDetails = PersonalDetail::with('disabilityStatus','ethnicity')->get();
+        $personalDetails = PersonalDetail::with('ethnicity')->get();
         return view('biodata.index', compact('personalDetails'));
     }
 
@@ -44,9 +45,10 @@ class PersonalDetailController extends Controller
     public function create(Request $request)
     {
         
-        $disabilityStatuses = DisabilityStatus::all();
+       
+       
         $ethnicities = Ethnicity::all();
-        return view('forms.create', compact('disabilityStatuses', 'ethnicities'));
+        return view('forms.create', compact('ethnicities'));
     }
 
     /**
@@ -68,10 +70,10 @@ class PersonalDetailController extends Controller
         $personalDetail->id_no = $request->id_no;
         $personalDetail->age = $request->age;
         $personalDetail->gender = $request->gender;
-        $personalDetail->disability_status_id = $request->disability_status_id;
+        $personalDetail->disability_status = $request->disability_status;
         $personalDetail->passport_photo = $request->passport_photo;
         $personalDetail->tel_mobile = $request->tel_mobile;
-        $personalDetail->ethnicity_id = $request->ethnicity_id;
+        $personalDetail->ethnicity = $request->ethnicity;
         $personalDetail->save();
 
         return redirect()->route('employment.details.next', $personalDetail->id)->with('success', 'Personal Details added successfully');
@@ -102,6 +104,7 @@ class PersonalDetailController extends Controller
         $personalDetail = PersonalDetail::where('id','=',$id)->firstOrFail();
         $employmentDetail = EmploymentDetail::where('personal_detail_id','=',$id)->first();
         $employmentChanges = EmploymentChange::where('personal_detail_id',$id)->first();
+        $payslip = Payslip::where('personal_detail_id',$id)->first();
         $disabilityStatuses = DisabilityStatus::all();
         $ethnicities = Ethnicity::all();
         $departments = Department::all();
@@ -114,11 +117,11 @@ class PersonalDetailController extends Controller
         $institutions = Institution::all();
         $courses = Course::all();
         $certificates = Certificate::all();
-        $changeTypes = ChangeType::all();
+        
         $approvingSignatories = ApprovingSignatory::all();
         $employmentTerms = EmploymentTerm::all();
        
-           return view('biodata.edit', compact('personalDetail', 'employmentDetail', 'employmentChanges', 'disabilityStatuses', 'ethnicities', 'departments', 'positions', 'employmentTerms', 'probations', 'jobGrades', 'jobTitles', 'relationships', 'institutions', 'courses', 'certificates', 'changeTypes', 'approvingSignatories', 'employmentTerms'));
+           return view('biodata.edit', compact('personalDetail', 'employmentDetail', 'employmentChanges', 'disabilityStatuses', 'ethnicities', 'departments', 'positions', 'employmentTerms', 'probations', 'jobGrades', 'jobTitles', 'relationships', 'institutions', 'courses', 'certificates', 'approvingSignatories', 'employmentTerms', 'payslip'));
 
     }
 
@@ -152,4 +155,11 @@ class PersonalDetailController extends Controller
         return redirect()->route('personalDetail.index')
                         ->with('success','PersonalDetails deleted successfully');
     }
+
+    public function generateReport()
+{
+    $personalDetails = PersonalDetail::with('employmentDetails', 'employmentChanges', 'payslip')->get();
+
+    return view('forms.report', compact('personalDetails'));
+}
 }

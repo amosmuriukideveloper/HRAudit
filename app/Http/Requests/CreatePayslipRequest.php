@@ -22,11 +22,23 @@ class CreatePayslipRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    {
-        return [
-            'personal_detail_id' => 'required|integer',
-            'payment_month' => 'required|string|max:255',
-            'document_name' => 'required|string|max:255',
-        ];
+{
+    return [
+                'personal_detail_id' => 'nullable|integer',
+                'date.*' => 'required|date|max:255',
+                'pf_number.*' => 'required|array|max:255',
+                'name.*' => 'required|array|max:255',
+                'station_name.*' => 'required|array|max:255',
+                'station_code.*' => 'required|array|max:255',
+                'desig_code.*' => 'required|array|max:255',
+                'desig_name.*' => 'required|array|max:255',
+                'id_no.*' => 'required|array',
+                'phone.*' => 'required|array|max:255',
+                'email.*' => 'requiredarray|max:255',
+                'message.*' => 'required|array|max:255',
+        
+    ];
+
+
     }
 }

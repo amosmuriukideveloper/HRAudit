@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateJobTitleRequest;
 use App\Http\Requests\UpdateJobTitleRequest;
 use App\Models\JobTitle;
-use Illuminate\Http\Request;
 
 class JobTitleController extends Controller
 {
@@ -56,7 +55,7 @@ class JobTitleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(JobTitle $jobTitle)
+    public function show()
     {
         // return view('jobTitle.show',compact('jobTitle'));
     }
@@ -67,8 +66,10 @@ class JobTitleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(JobTitle $jobTitle)
+    public function edit($id)
     {
+        $jobTitle = JobTitle::findOrFail($id);
+
         return view('jobtitle.edit',compact('jobTitle'));
 
     }
@@ -80,10 +81,10 @@ class JobTitleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJobTitleRequest $request, JobTitle $jobTitle)
+    public function update(UpdateJobTitleRequest $request, $id)
     {
         $validated = $request->validated();
-        $jobTitle = JobTitle::findOrFail($jobTitle);
+        $jobTitle = JobTitle::findOrFail($id);
 
 
         $jobTitle->update($validated);
@@ -98,8 +99,13 @@ class JobTitleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(JobTitle $jobTitle)
+    public function destroy($id)
     {
-        $jobTitle->delete();
+        $jobTitle = JobTitle::find($id);
+        
+        if ($jobTitle->delete()) {
+            return redirect()->route('job.grade.index')
+            ->withSuccess(__('Job Grade deleted successfully.'));
+        }
     }
 }

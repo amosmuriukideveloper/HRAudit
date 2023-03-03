@@ -64,8 +64,9 @@ class EthnicityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ethnicity $ethnicity)
+    public function edit($id)
     {
+        $ethnicity = Ethnicity::findOrFail($id);
         return view('ethnicity.edit',compact('ethnicity'));
 
     }
@@ -77,16 +78,13 @@ class EthnicityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEthnicityRequest $request, Ethnicity $ethnicity)
+    public function update(UpdateEthnicityRequest $request, $id)
     {
-        $request->validated();
-        $ethnicity = Ethnicity::findOrFail($ethnicity);
+        $validated = $request->validated();
+        $ethnicity = Ethnicity::findOrFail($id);
 
 
-        $ethnicity->update([
-            'name' => $request->name,
-            
-        ]);
+        $ethnicity->update($validated);
 
         return redirect()->route('ethnicity.index')
             ->withSuccess(__('Ethnicity updated successfully.'));

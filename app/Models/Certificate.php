@@ -10,6 +10,12 @@ class Certificate extends Model
     use HasFactory;
     protected $table = 'certificates';
     protected $fillable = [
-        'name'
+        'name',
+        
     ];
+
+    public function personalDetail()
+    {
+        return $this->belongsTo(PersonalDetail::class);
+    }
 }

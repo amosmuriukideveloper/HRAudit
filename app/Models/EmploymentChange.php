@@ -14,20 +14,20 @@ class EmploymentChange extends Model
     protected $fillable = [
         'personal_detail_id',
         'relative_id',
-        'name',
-        'id_no',
+        'name', 
         'job_title_id',
-        'relationship_id',
+        'relationship',
         'department_id',
-        'study_leave_id',
+        'study_leave',
         'start_date',
         'end_date',
-        'institution_id',
-        'course_id',
-        'certificate_id',
+        'institution',
+        'course',
+        'certificate',
         'date', 
-        'approving_supervisor',
-        'change_type_id',
+        'approving_signatory',
+        'comments'
+        
 
             
             
@@ -35,6 +35,7 @@ class EmploymentChange extends Model
 
     public function personal_detail()
     {
-        return $this->belongsTo(PersonalDetail::class, 'persona_detail_id');
+        return $this->belongsTo(PersonalDetail::class, 'personal_detail_id');
     }
+
 }

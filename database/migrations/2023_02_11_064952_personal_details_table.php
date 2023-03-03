@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('id_no');
             $table->integer('age');
             $table->enum('gender', ['male', 'female']);
-            $table->unsignedBigInteger('disability_status');
-            $table->string('passport_photo');
+            $table->enum('disability_status', ['yes', 'no'])->nullable();
+            $table->enum('passport_photo', ['yes', 'no']);
             $table->string('tel_mobile');
-            $table->unsignedBigInteger('ethnicity');
+            $table->unsignedBigInteger('ethnicity')->nullable();
+            $table->string('comments')->nullable();
             $table->timestamps();
         });
     }

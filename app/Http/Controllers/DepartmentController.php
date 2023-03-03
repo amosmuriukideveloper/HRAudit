@@ -93,13 +93,8 @@ class DepartmentController extends Controller
     {
         $validated = $request->validated();
         $department =  Department::where('id','=',$id)->firstOrFail();
-
-
-        $request->validate([
-            'name' => 'required|unique:department,name,'.$department->id
-        ]);
-
-        $department->update($request->only('name'));
+        
+        $department->update($validated);
 
         return redirect()->route('department.index')
             ->withSuccess(__('Department updated successfully.'));

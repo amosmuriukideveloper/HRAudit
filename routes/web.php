@@ -5,13 +5,13 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ChnageTypeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DisabilityStatusController;
+
 use App\Http\Controllers\DutyController;
+use App\Http\Controllers\EmployeeCertificateController;
 use App\Http\Controllers\EmploymentChangeController;
 use App\Http\Controllers\EmploymentDetailController;
 use App\Http\Controllers\EmploymentTermController;
 use App\Http\Controllers\EthnicityController;
-
 use App\Http\Controllers\InstitutionnController;
 use App\Http\Controllers\JobGradeController;
 use App\Http\Controllers\JobTitleController;
@@ -62,13 +62,12 @@ Route::middleware('auth')->group(function () {
         Route::get('create', [PersonalDetailController::class, 'create'])->name('personal.details.create');
         Route::get('edit/{detail}', [PersonalDetailController::class, 'edit'])->name('personal.details.edit');
         Route::post('store', [PersonalDetailController::class, 'store'])->name('personal.details.store');
+        Route::get('report', [PersonalDetailController::class, 'generateReport'])->name('personal.details.report');
         Route::put('update/{detail}', [PersonalDetailController::class, 'update'])->name('personal.details.update');
     });
   
   
     Route::resource('department', DepartmentController::class);
-
-    Route::resource('payslip', PayslipController::class);
     
     Route::resource('ethnicity', EthnicityController::class);
 
@@ -82,13 +81,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('duty', DutyController::class);
 
-    Route::group(['prefix' => 'disability', 'as' => 'disability.'], function () {
-        Route::resource('status', DisabilityStatusController::class);
-    });
+    Route::resource('relationship', RelationshipController::class);
 
-    Route::group(['prefix' => 'changetype', 'as' => 'change.'], function () {
-        Route::resource('type', ChnageTypeController::class);
-    });
+   
+
+   
 
     Route::group(['prefix' => 'approvingsupervisor', 'as' => 'approving.'], function () {
         Route::resource('supervisor', ApprovingSignatoryController::class);
@@ -117,6 +114,14 @@ Route::middleware('auth')->group(function () {
         Route::post('store/{id}', [EmploymentChangeController::class, 'store'])->name('change.store');
         Route::post('update/{change}', [EmploymentChangeController::class, 'update'])->name('change.update');
     });
+
+    Route::group(['prefix' => 'payslip', 'as' => 'payslip.'], function () {
+        // Route::resource('details', EmploymentDetailController::class);
+        Route::get('next/{id}', [PayslipController::class, 'create'])->name('next');
+        Route::post('store/{id}', [PayslipController::class, 'store'])->name('store');
+        Route::post('update/{payslip}', [PayslipController::class, 'update'])->name('update');
+
+    });
    
     Route::group(['prefix' => 'employment', 'as' => 'employment.'], function () {
         // Route::resource('details', EmploymentDetailController::class);
@@ -125,6 +130,15 @@ Route::middleware('auth')->group(function () {
         Route::post('update/{detail}', [EmploymentDetailController::class, 'update'])->name('details.update');
 
     });
+
+    Route::group(['prefix' => 'employee', 'as' => 'employee.'], function () {
+        // Route::resource('details', EmploymentDetailController::class);
+        Route::get('next/{id}', [EmployeeCertificateController::class, 'create'])->name('certificate.next');
+        Route::post('store/{id}', [EmployeeCertificateController::class, 'store'])->name('certificate.store');
+        Route::post('update/{detail}', [EmployeeCertificateController::class, 'update'])->name('certificate.update');
+
+    });
+    
 
     Route::group(['prefix' => 'access', 'as' => 'access.'], function () {
         Route::resources([

@@ -15,4 +15,9 @@ class Position extends Model
         
     ];
 
+    public function EmploymentDetails()
+    {
+        return $this->belongsTo(EmploymentDetail::class);
+    }
+
 }

@@ -24,8 +24,12 @@ class CreateEmployeeCertificateRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|integer',
-            'certificates_id' => 'required|integer',
+            'name' => 'nullable|array|max:255',
+            'index_number' => 'nullable|array|max:255',
+            'school' => 'nullable|array|max:255',
+            'certificate_number' => 'nullable|array|max:255',
+            'comments' => 'nullable|string|max:255',
+
         ];
     }
 }

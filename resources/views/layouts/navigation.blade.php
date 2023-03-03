@@ -243,19 +243,21 @@
                             </li>
 
                             <li>
+                            
+                                <a href="{{ route('personal.details.report')}}">
+                                    <i class="mdi mdi-playlist-check"></i>
+                                    <span>Reports</span>
+                                </a>
+                            </li>
+
+                            <li>
                                 <a href="javascript: void(0);">
                                     <i class=" mdi mdi-settings "></i>
                                     <span> Settings </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li>
-                                        <a href="{{ route('certificate.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Certificate </span>
-                                        </a>
-                                    </li>
+                                    
                                    
         
                                     <li>
@@ -282,22 +284,10 @@
                                         </a>
                                     </li>
         
-                                    <li>
-                                        <a href="{{ route('disability.status.create')}}">
-                                            <i class=" mdi mdi-circle-double "></i>
-                                            
-                                            <span> Disability Status </span>
-                                        </a>
-                                    </li>
+                                   
                                    
         
-                                    <li>
-                                        <a href="{{ route('duty.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Duty </span>
-                                        </a>
-                                    </li>
+                                  
         
                                     <li>
                                         <a href="{{ route('job.grade.create')}}">
@@ -307,62 +297,12 @@
                                         </a>
                                     </li>
         
-                                    <li>
-                                        <a href="{{ route('job.title.create')}}">
-                                            <i class=" mdi mdi-circle-double "></i>
-                                            
-                                            <span> Job Title </span>
-                                        </a>
-                                    </li>
+                                 
         
-                                    <li>
-                                        <a href="{{ route('position.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Position </span>
-                                        </a>
-                                    </li>
         
-                                    <li>
-                                        <a href="{{ route('probation.status.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Probation Status </span>
-                                        </a>
-                                    </li>
         
-                                    <li>
-                                        <a href="{{route('change.type.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> ChangeType </span>
-                                        </a>
-                                    </li>
 
-                                    <li>
-                                        <a href="">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Relationship </span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="{{route('institution.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Institution </span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="{{route('course.create')}}">
-                                            <i class="  mdi mdi-circle-double "></i>
-                                            
-                                            <span> Course </span>
-                                        </a>
-                                    </li>
-        
+                                  
         
                                   
                                            

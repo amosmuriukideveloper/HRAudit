@@ -14,4 +14,9 @@ class EmploymentTerm extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function EmploymentDetails()
+    {
+        return $this->belongsTo(EmploymentDetail::class);
+    }
 }
