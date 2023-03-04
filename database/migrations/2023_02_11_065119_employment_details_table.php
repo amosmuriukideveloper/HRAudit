@@ -13,18 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employment_details', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('personal_detail_id');
-            $table->boolean('appointment_letter')->nullable();
-            $table->unsignedBigInteger('employment_term_id')->nullable();
-            $table->unsignedBigInteger('probation_statuses_id')->nullable();
-           
-            $table->date('employment_year')->nullable();
-            $table->unsignedBigInteger('department_id')->nullable();
-            $table->string('comments')->nullable();;
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('employment_details')) {
+            Schema::create('employment_details', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('personal_detail_id');
+                $table->boolean('appointment_letter')->nullable();
+                $table->unsignedBigInteger('employment_term_id')->nullable();
+                $table->unsignedBigInteger('probation_statuses_id')->nullable();
+
+                $table->date('employment_year')->nullable();
+                $table->unsignedBigInteger('department_id')->nullable();
+                $table->string('comments')->nullable();;
+                $table->timestamps();
+            });
+        }
     }
 
     /**

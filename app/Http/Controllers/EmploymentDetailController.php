@@ -39,18 +39,18 @@ class EmploymentDetailController extends Controller
      */
     public function create($id=null)
     {
-       
+
         $id = $id;
         $departments = Department::all();
         $probations = ProbationStatus::all();
         $positions = Position::all();
         $jobGrades = JobGrade::all();
         $employmentTerms = EmploymentTerm::all();
-       
+
         $employmentDetails = EmploymentDetail::all();
-        
+
         return view('forms.second', compact('employmentDetails', 'departments', 'employmentTerms', 'probations', 'positions', 'jobGrades', 'id'));
-    
+
     }
 
     /**
@@ -62,34 +62,34 @@ class EmploymentDetailController extends Controller
     public function store(CreateEmploymentDetailRequest $request, $id)
     {
         // $departments = Department::get();
-       
+
         $request->validated();
         $positions = $request->position;
-        // dd($request->employment_year);
-        
+        //  dd($request->validated());
+
         $employmentDetail = EmploymentDetail::create([
             'personal_detail_id' => $id,
             'department_id' => $request->department_id,
             'appointment_letter' => $request->appointment_letter,
             'employment_term_id' => $request->employment_term_id,
             'probation_statuses_id' => $request->probation_statuses_id,
-                      
+            'comments' => $request->comments,
+
         ]);
 
-        $employmentDetail->save();
-            
+
             foreach($positions as $key => $position) {
-           
-                $employeeworkexperience = EmployeeWorkExperience::create([
+
+                 EmployeeWorkExperience::create([
                     'personal_detail_id' => $id,
                     'position'=>$position,
                     'job_grade_id'=>$request->job_grade_id[$key],
-                    'employment_year' => date('Y-m-d'),
+                    'employment_year' => date('Y-m-d', strtotime($request->employment_year[$key])),
 
                 ]);
-       
-        $employeeworkexperience->save();
-       
+
+
+
 
     }
 
@@ -123,7 +123,7 @@ class EmploymentDetailController extends Controller
         $employmentTerms = EmploymentTerm::findOrFail($id);
         $departments = Department::findOrFail($id);
         $positions = Position::findOrFail($id);
-       
+
 
         return view('biodata.edit', compact('employmentDetail', 'personalDetail', 'probations', 'jobGrades', 'departments', 'employmentTerms', 'positions'));
     }
@@ -161,5 +161,5 @@ class EmploymentDetailController extends Controller
         $employeeDetail->delete();
     }
 
-    
+
 }

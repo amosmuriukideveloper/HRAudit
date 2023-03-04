@@ -23,7 +23,7 @@ class EmploymentChangeController extends Controller
     public function index()
     {
         $changes = EmploymentChange::get();
-        
+
 
         return view('employment.change.index', compact('changes'));
     }
@@ -53,11 +53,12 @@ class EmploymentChangeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CreateEmploymentChangeRequest $request, $id)
-    
+
     {
-        
-       
+
+
         $request->validated();
+        // dd($request->validated());
         $employmentchange = EmploymentChange::create([
             'personal_detail_id' => $id,
             'relative_id' => $request->relative_id,
@@ -75,8 +76,8 @@ class EmploymentChangeController extends Controller
             'date' => $request ->date.'-01',
             'approving_signatory' => $request ->approving_signatory,
         ]);
-        $employmentchange->save();
-        
+
+
 
         return redirect()->route('payslip.next', $id)->with('success', 'Employment Changes/Movements have been added');
     }
@@ -109,7 +110,7 @@ class EmploymentChangeController extends Controller
         $institutions = Institution::findOrFail($id);
         $certificates = Certificate::findOrFail($id);
         $courses = Certificate::findOrFail($id);
-        
+
 
         return view('biodata.edit', compact('change', 'jobTitles', 'departments', 'relationships', 'institutions', 'certificates',  'courses'));
     }
@@ -125,8 +126,8 @@ class EmploymentChangeController extends Controller
     {
         $validated = $request->validated();
         $employmentchange = EmploymentChange::findOrFail($id);
-        
-       
+
+
         $employmentchange->update($validated);
         return redirect()->route('personal.details.edit')
                         ->with('success','Employment Details updated successfully');

@@ -29,6 +29,7 @@ class UpdateEmploymentDetailRequest extends FormRequest
             'appointment_letter' => 'nullable',
             'employment_term_id' => 'required|integer',
             'probation_statuses_id' => 'required|integer',
+            'position_type'=>'nullable|array',
             'position' => 'integer',
             'job_grade_id' => 'integer',
             'comments' => 'nullable|string|max:255',

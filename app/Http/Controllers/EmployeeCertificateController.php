@@ -40,25 +40,24 @@ class EmployeeCertificateController extends Controller
      */
     public function store(CreateEmployeeCertificateRequest $request, $id)
     {
-        
-       
+
+
         $request->validated();
         $certificates = $request->name;
-      
-        
+
+    //    dd($request->validated());
         foreach($certificates as $key => $certificate) {
-           
-            $employeeCertificate = EmployeeCertificate::create([
+
+           EmployeeCertificate::create([
                 'personal_detail_id' => $id,
                 'name' =>$certificate,
                 'index_number' =>$request->index_number[$key],
                 'school' =>$request->school[$key],
                 'certificate_number' =>$request->certificate_number[$key],
+                'comments' => $request->comments
             ]);
-           
 
-        $employeeCertificate->save();
-        
+
     }
     return redirect()->route('employment.change.next', $id)->with('success', 'Employee Certificate Details have been added');
 }
@@ -103,7 +102,7 @@ class EmployeeCertificateController extends Controller
 
         return redirect()->route('personal.details.edit')
                         ->with('success','Employee Certifixate Details updated successfully');
-        
+
 
     }
 

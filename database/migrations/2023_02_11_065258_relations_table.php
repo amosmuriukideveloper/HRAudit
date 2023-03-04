@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('relations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('job_title_id');
-            $table->string('relationships_id');
-            $table->string('department_id');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('relations')) {
+            Schema::create('relations', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('job_title_id');
+                $table->string('relationships_id');
+                $table->string('department_id');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

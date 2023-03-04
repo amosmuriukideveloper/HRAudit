@@ -11,21 +11,19 @@ class EmploymentDetail extends Model
 
     protected $table = 'employment_details';
     protected $fillable = [
-         
+
         'personal_detail_id',
         'department_id',
-        
+
         'appointment_letter',
         'employment_term_id',
-       
+
         'probation_statuses_id',
-        'position',
-        'job_grade_id',
         'comments'
 
-      
 
-    
+
+
     ];
 
     public function personalDetail()
@@ -33,7 +31,7 @@ class EmploymentDetail extends Model
         return $this->belongsTo(PersonalDetail::class);
     }
 
-   
+
     public function department()
     {
         return $this->hasOne(Department::class,'id','department_id');

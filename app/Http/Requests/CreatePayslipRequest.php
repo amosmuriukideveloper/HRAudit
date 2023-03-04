@@ -25,18 +25,21 @@ class CreatePayslipRequest extends FormRequest
 {
     return [
                 'personal_detail_id' => 'nullable|integer',
-                'date.*' => 'required|date|max:255',
-                'pf_number.*' => 'required|array|max:255',
-                'name.*' => 'required|array|max:255',
-                'station_name.*' => 'required|array|max:255',
-                'station_code.*' => 'required|array|max:255',
-                'desig_code.*' => 'required|array|max:255',
-                'desig_name.*' => 'required|array|max:255',
-                'id_no.*' => 'required|array',
-                'phone.*' => 'required|array|max:255',
-                'email.*' => 'requiredarray|max:255',
-                'message.*' => 'required|array|max:255',
-        
+                'date' => 'required',
+                'basic_salary' => 'required|array',
+                'total_earnings' => 'required|array',
+                'pf_number' => 'required|array',
+                'tax_pin' => 'required|array',
+                'name' => 'required|array',
+                'station_name' => 'required|array',
+                'station_code' => 'required|array',
+                'desig_code' => 'required|array',
+                'desig_name' => 'required|array',
+                'id_no' => 'required|array',
+                'phone' => 'required|array',
+                'email' => 'required|array',
+                'message' => 'required|array',
+
     ];
 
 

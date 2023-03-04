@@ -24,12 +24,13 @@ class CreateEmploymentDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            
+
             'department_id' =>'required|integer',
             'appointment_letter' => 'nullable|string',
             'employment_term_id' => 'required|integer',
             'probation_statuses_id' => 'required|integer',
             'position'=>'nullable|array',
+            'position_type'=>'nullable|array',
             'job_grade_id'=>'nullable|array',
             'employment_year'=> 'nullable|array',
             'comments' => 'nullable|string|max:255',

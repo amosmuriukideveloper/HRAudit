@@ -1,79 +1,64 @@
 <x-app-layout>
-    
+    <style>
+        legend {
+        background-color: #4fbde9;
+        color: #fff;
+        font-size: 12px;
+        padding: 3px 6px;
+        border-radius: 10px;
+      }
+      fieldset {
+        border: 1px solid #ccc;
+        padding: 10px;
+        }
+
+    .input-card{
+        border:1px solid #348cd4;
+        border-radius:10px;
+    }
+
+    </style>
     <div class="col-md-12">
-        <div class="card-box "  style="border:1px solid #ccc">
+        <div class="card-box input-card" >
             <div class="card-header mb-2" style="border:1px solid #ccc">
-                 <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
+                 <h4 class="header-title text-info"><b>Step 3: Certificates</b></h4>
             </div>
             <form id="basic-form" action="{{ route('employee.certificate.store', $id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
-                <div>
-                    <h3>Certificates</h3>
-                               
-                    <div class="form-group">
-                        
-                        <div class="row">
-                            {{-- <div class="col-md-6">
-                                <label class="control-label" for="kcpe_cpe">KCPE/CPE</label>
-                                <div>
-                                    <input id="kcpe_cpe_index_number" name="kcpe_cpe_index_number" type="text" class="form-control" placeholder="Index Number">
-                                    <input id="kcpe_cpe_school" name="kcpe_cpe_school" type="text" class="form-control" placeholder="School">
-                                    <input id="kcpe_cpe_certificate_number" name="kcpe_cpe_certificate_number" type="text" class="form-control" placeholder="Certificate Number">
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-md-6">
-                                <label class="control-label" for="kcse_cse">KCSE/CSE</label>
-                                <div>
-                                    <input id="kcse_cse_index_number" name="kcse_cse_index_number" type="text" class="form-control" placeholder="Index Number">
-                                    <input id="kcse_cse_school" name="kcse_cse_school" type="text" class="form-control" placeholder="School">
-                                    <input id="kcse_cse_certificate_number" name="kcse_cse_certificate_number" type="text" class="form-control" placeholder="Certificate Number">
-                                </div>
-                            </div> --}}
-                        </div>
-                        {{-- <div class="row">
-                            <div class="col-md-6">
-                                <label class="control-label" for="certificate">Certificate</label>
-                                <div>
-                                    <input id="certificate_index_number" name="certificate_index_number" type="text" class="form-control" placeholder="Index Number">
-                                    <input id="certificate_school" name="certificate_school" type="text" class="form-control" placeholder="School">
-                                    <input id="certificate_certificate_number" name="certificate_certificate_number" type="text" class="form-control" placeholder="Certificate Number">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="control-label" for="diploma">Diploma</label>
-                                <div>
-                                    <input id="diploma_index_number" name="diploma_index_number" type="text" class="form-control" placeholder="Index Number">
-                                    <input id="diploma_school" name="diploma_school" type="text" class="form-control" placeholder="School">
-                                    <input id="diploma_certificate_number" name="diploma_certificate_number" type="text" class="form-control" placeholder="Certificate Number">
-                                </div>
-                            </div>
-                        </div> --}}
-                        <div class="row">
-                            {{-- <div class="col-md-6">
-                                <label class="control-label" for="higher_diploma">Higher Diploma</label>
-                                <div>
-                                    <input id="higher_diploma_index_number" name="higher_diploma_index_number" type="text" class="form-control" placeholder="Index Number">
-                                    <input id="higher_diploma_school" name="higher_diploma_school" type="text" class="form-control" placeholder="School">
-                                </div> --}}
+               <fieldset>
+                 <legend>Add Academic certificates</legend>
+                    <div >
+                        <div class="p-1">
+                            <button type="button" class="btn btn-outline-info btn-xs  mt-4" onclick="addCertificate()"><i class="mdi mdi-note-plus-outline"></i> Add Certificate</button>
+
+                         </div>
+
+
+                             <div class="row p-2">
+
                                 <div class="form-group">
-                                  
+
+
                                     <div id="other_certificates">
+                                        <table class="table table-bordered">
+                                            <th>Certificate Title</th>
+                                            <th>Index/Registration No</th>
+                                            <th>Institution</th>
+                                            <th>Certificate No</th>
+                                            <th>Year</th>
+                                        </table>
                                         <!-- dynamic input fields for other certificates will be added here -->
                                     </div>
-                                    <button type="button" class="btn btn-primary mt-4" onclick="addCertificate()">Add Certificate</button>
-                                </div>
 
-                              
-                              
-                            </div>
+                                 </div>
 
-                            
+                              </div>
 
-                 
+
 
                             <div class="form-group row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="control-label" for="comments">Comments</label>
                                     <div>
                                         <textarea id="comments" name="comments" class="form-control">{{old('comments')}}</textarea>
@@ -85,13 +70,16 @@
                             </div>
 
                             <div class="form-group row" >
-                                <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline" ></i> Next Section : Employment Changes</button>
-                             
+                                <div class="p-2" >
+                                <button type="submit" class="btn btn-outline-info btn-sm btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline" ></i> Next Section : Employment Changes</button>
+                                </div>
                             </div>
-                            
 
-                       
-                </div>
+
+
+                        </div>
+                    </div>
+               </fieldset>
             </form>
 
         </div>
@@ -106,18 +94,20 @@
     function addCertificate() {
         var container = document.createElement('div');
         container.classList.add('row');
+        container.classList.add('p-2');
+        container.style.borderBottom = '1px solid #ccc';
 
         var titleDiv = document.createElement('div');
         titleDiv.classList.add('col-md-3');
         var titleInput = document.createElement('input');
         titleInput.classList.add('form-control');
-        titleInput.placeholder = 'Cert Title';
+        titleInput.placeholder = 'Certificate Title';
         titleInput.name = 'name[]';
         titleDiv.appendChild(titleInput);
         container.appendChild(titleDiv);
 
         var indexDiv = document.createElement('div');
-        indexDiv.classList.add('col-md-3');
+        indexDiv.classList.add('col-md-2');
         var indexInput = document.createElement('input');
         indexInput.classList.add('form-control');
         indexInput.placeholder = 'Index No/Regnumber';
@@ -135,19 +125,20 @@
         container.appendChild(schoolDiv);
 
         var certificateDiv = document.createElement('div');
-        certificateDiv.classList.add('col-md-3');
+        certificateDiv.classList.add('col-md-2');
         var certificateInput = document.createElement('input');
         certificateInput.classList.add('form-control');
-        certificateInput.placeholder = 'Cert No';
+        certificateInput.placeholder = 'Certificate No';
         certificateInput.name = 'certificate_number[]';
         certificateDiv.appendChild(certificateInput);
         container.appendChild(certificateDiv);
 
         var certificateDiv = document.createElement('div');
-        certificateDiv.classList.add('col-md-3');
+        certificateDiv.classList.add('col-md-2');
         var certificateInput = document.createElement('input');
+        certificateInput.type = 'date';
         certificateInput.classList.add('form-control');
-        certificateInput.placeholder = 'Cert Year';
+        certificateInput.placeholder = 'Year';
         certificateInput.name = 'certificate_year[]';
         certificateDiv.appendChild(certificateInput);
         container.appendChild(certificateDiv);

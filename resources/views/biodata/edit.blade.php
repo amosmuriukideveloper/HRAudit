@@ -1,6 +1,6 @@
 <x-app-layout>
-    
-   
+
+
 
 
 <!-- End row -->
@@ -12,7 +12,7 @@
 
 
 
-   
+
 
     <div class="card-box">
         <h4 class="header-title mb-4">EDIT HR AUDIT FORM</h4>
@@ -53,9 +53,9 @@
                         <div class="card-header mb-2" style="border:1px solid #ccc">
                              <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
                         </div>
-                       
-                       
-            
+
+
+
                         <form id="basic-form" action="{{ route('personal.details.update', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -66,7 +66,7 @@
                                             <div class="">
                                                 <input id="payroll_number" value="{{old('payroll_number', $personalDetail->payroll_number)}}" name="payroll_number" type="text" class="required form-control">
                                             </div>
-                                            
+
                                             @if ($errors->has('payroll_number'))
                                             <span class="text-danger text-left">{{ $errors->first('payroll_number') }}</span>
                                             @endif
@@ -80,21 +80,21 @@
                                             <span class="text-danger text-left">{{ $errors->first('name') }}</span>
                                             @endif
                                          </div>
-                                         
+
                                     </div>
-            
-            
+
+
                                     <div class="form-group  row">
                                             <div class="col-md-6">
                                                 <label class="control-label" for="name"> ID No. *</label>
                                                 <div class="">
                                                     <input id="id_no" name="id_no" type="text" value="{{old('id_no', $personalDetail->id_no)}}" class="required form-control">
-                                                </div> 
+                                                </div>
                                                 @if ($errors->has('id_no'))
                                             <span class="text-danger text-left">{{ $errors->first('id_no') }}</span>
                                             @endif
                                             </div>
-            
+
                                             <div class="col-md-6">
                                                 <label class="control-label" for="name"> Age *</label>
                                             <div class="">
@@ -104,10 +104,10 @@
                                             <span class="text-danger text-left">{{ $errors->first('age') }}</span>
                                             @endif
                                             </div>
-                                        
+
                                     </div>
-            
-                                    
+
+
                                     <div class="form-group  row">
                                         <div class="col-md-6">
                                             <label class="control-label">Gender *</label>
@@ -119,15 +119,15 @@
                                                 <input class="form-check-input" type="radio" name="gender" id="female" value="female" {{ $personalDetail->gender == 'female' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="female">Female</label>
                                             </div>
-                                            
+
                                             @if ($errors->has('gender'))
                                                 <span class="text-danger">{{ $errors->first('gender') }}</span>
                                             @endif
                                         </div>
-            
-            
-                                           
-            
+
+
+
+
                                         <div class="form-group row">
                                             <div class="col-md-6">
                                                 <label class="control-label" for="disability_status">Disability Status *</label>
@@ -144,14 +144,14 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
-                                           
+
+
                                     </div>
-            
-            
-                                    
-            
-            
+
+
+
+
+
                                     <div class="form-group row">
                                         <div class="col-md-6">
                                             <label class="control-label" for="passport_photo">Passport Photo *</label>
@@ -168,10 +168,10 @@
                                             @endif
                                         </div>
                                     </div>
-                                    
-                                    
-                                    
-            
+
+
+
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="tel_mobile">Tel/Mobile *</label>
                                         <div class="">
@@ -181,10 +181,10 @@
                                             <span class="text-danger text-left">{{ $errors->first('tel_mobile') }}</span>
                                         @endif
                                     </div>
-                                    
-            
-            
-                                   
+
+
+
+
                                     <div class="form-group  row">
                                         <div class="col-md-6">
                                             <label class="control-label" for="ethnicity_id">Ethnicity *</label>
@@ -200,7 +200,7 @@
                                                 <span class="text-danger text-left">{{ $errors->first('ethnicity_id') }}</span>
                                             @endif
                                         </div>
-                                        
+
                                           </div>
 
                                           <div class="form-group row">
@@ -211,15 +211,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-            
+
+
                                     <div class="form-group  row">
                                         <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline" ></i>Save Changes</button>
-                                     
+
                                     </div>
                             </div>
                         </form>
-            
+
                     </div>
                 </div>
             </div>
@@ -229,17 +229,17 @@
                         <div class="card-header mb-2" style="border:1px solid #ccc">
                             <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
                        </div>
-                       
-                
+
+
                         <form id="basic-form" action="{{ route('employment.details.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method("POST")
-                
+
                             <div>
-                              
-                         
+
+
                                     <div class="form-group  row">
-                
+
                                         {{-- Department --}}
                                         <div class="col-md-6">
                                             <label class="control-label" for="department_id">Department *</label>
@@ -255,11 +255,11 @@
                                                 <span class="text-danger text-left">{{ $errors->first('department_id') }}</span>
                                             @endif
                                         </div>
-                                        
-                
-                
+
+
+
                                          {{-- appointment_letter --}}
-                
+
                                          <div class="col-md-6">
                                             <label class="control-label" for="appointment_letter_id">Appointment Letter *</label>
                                             <div class="">
@@ -276,13 +276,13 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
-                                        
-                                        
+
+
+
                                     </div>
-                
+
                                     {{-- employment_term_id --}}
-                
+
                                     <div class="form-group  row">
                                         <div class="col-md-6">
                                             <label class="control-label" for="employment_term_id">Employment Term *</label>
@@ -298,11 +298,11 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
-                
+
+
                                             {{-- probation_status --}}
-                
-                
+
+
                                             <div class="col-md-6">
                                                 <label class="control-label" for="probation_statuses_id">Probation Status *</label>
                                                 <div>
@@ -319,11 +319,11 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            
-                                            
-                                        
+
+
+
                                     </div>
-                
+
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label class="control-label" for="position_id">Current Position *</label>
@@ -334,9 +334,9 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    
+
                                         {{-- Current JobGrade --}}
-                                    
+
                                         <div class="col-md-4">
                                             <label class="control-label" for="job_grade_id">Current Job Grade *</label>
                                             <div>
@@ -351,7 +351,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    
+
                                         <div class="col-md-4">
                                             <label class="control-label" for="previous_employment_year">Current Employment Year *</label>
                                             <div>
@@ -362,9 +362,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                
-                
+
+
+
                                     {{-- Previous Position --}}
 <div class="form-group">
     <label class="control-label">Previous Work Experience</label>
@@ -413,9 +413,9 @@
 </div>
 
 
-                                 
 
-                                
+
+
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label class="control-label" for="comments">Comments</label>
@@ -424,20 +424,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                   
-                         
+
+
+
                                     {{-- Submit --}}
                                     <div class="form-group  row">
                                         <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Save Changes</button>
-                                        
+
                                     </div>
                             </div>
                         </form>
-                
+
                     </div>
                 </div>
-                
+
             </div>
             <div class="tab-pane" id="messages1">
                 <div class="col-md-12">
@@ -445,26 +445,26 @@
                         <div class="card-header mb-2" style="border:1px solid #ccc">
                             <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
                        </div>
-                       
-                       
-                
+
+
+
                         <form id="basic-form" action="{{ route('employment.change.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                             <div>
-                               
-                         
-                                   
-                
+
+
+
+
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label class="control-label">Relative *</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="relative_id" id="yes" value="1" {{ old('relative_id', $personaldetail->relative_id) == 'yes' ? 'checked' : '' }}>
+                                            <input class="form-check-input" type="radio" name="relative_id" id="yes" value="1" {{ old('relative_id', $personalDetail->relative_id) == 'yes' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="yes">Yes </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="relative_id" id="no" value="0" {{ old('relative_id', $personaldetail->relative_id) == 'no' ? 'checked' : '' }}>
+                                            <input class="form-check-input" type="radio" name="relative_id" id="no" value="0" {{ old('relative_id', $personalDetail->relative_id) == 'no' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="no">No</label>
                                         </div>
                                         @if ($errors->has('relative_id'))
@@ -474,15 +474,15 @@
                                     <div class="col-md-6">
                                         <label class="control-label" for="name"> Name *</label>
                                         <div class="">
-                                            <input id="name" name="name" value="{{ old('name', $personaldetail->name) }}" type="text" class="required form-control">
+                                            <input id="name" name="name" value="{{ old('name', $personalDetail->name) }}" type="text" class="required form-control">
                                         </div>
                                         @if ($errors->has('name'))
                                             <span class="text-danger text-left">{{ $errors->first('name') }}</span>
                                         @endif
                                     </div>
                                 </div>
-                                
-                                        
+
+
                                 <div class="form-group  row">
                                     <div class="col-md-6">
                                         <label class="control-label" for="job_title_id">Job Title *</label>
@@ -498,7 +498,7 @@
                                             <span class="text-danger text-left">{{ $errors->first('job_title_id') }}</span>
                                         @endif
                                     </div>
-                                
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="relationship">Relationship *</label>
                                         <div class="">
@@ -539,10 +539,10 @@
                                         @endif
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <div class="form-group row">
-                            
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="name">Start Date *</label>
                                         <div class="">
@@ -552,7 +552,7 @@
                                             <span class="text-danger text-left">{{ $errors->first('start_date') }}</span>
                                         @endif
                                     </div>
-                                
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="name">End Date *</label>
                                         <div class="">
@@ -562,9 +562,9 @@
                                             <span class="text-danger text-left">{{ $errors->first('end_date') }}</span>
                                         @endif
                                     </div>
-                                                            
+
                                 </div>
-                                      
+
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label class="control-label" for="institution">Institution *</label>
@@ -575,7 +575,7 @@
                                             <span class="text-danger text-left">{{ $errors->first('institution') }}</span>
                                         @endif
                                     </div>
-                                
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="course">Course *</label>
                                         <div class="">
@@ -586,8 +586,8 @@
                                         @endif
                                     </div>
                                 </div>
-                                
-                                        
+
+
                                 <div class="form-group  row">
                                     <div class="col-md-6">
                                         <label class="control-label" for="certificate">Certificate Attained *</label>
@@ -598,7 +598,7 @@
                                             <span class="text-danger text-left">{{ $errors->first('certificate') }}</span>
                                         @endif
                                     </div>
-                                
+
                                     <div class="col-md-6">
                                         <label class="control-label" for="name"> Date *</label>
                                         <div class="">
@@ -609,7 +609,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                 
+
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label class="control-label" for="approving_signatory">Approving Signatory *</label>
@@ -621,20 +621,20 @@
                                         @endif
                                     </div>
                                 </div>
-                                
-                                              
-                
-                                   
-                
-                
-                
+
+
+
+
+
+
+
                                     <div class="form-group  row">
                                         <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline" ></i> Save Changes</button>
-                                     
+
                                     </div>
                             </div>
                         </form>
-                
+
                     </div>
                 </div>
             </div>
@@ -644,16 +644,16 @@
                         <div class="card-header mb-2" style="border:1px solid #ccc">
                              <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
                         </div>
-                
+
                         <form id="basic-form" action="{{ route('personal.details.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                             <div>
                                 <h3>Payment Details</h3>
-               
+
                     <div class="form-group  row">
                        <!-- HTML Code -->
-            
+
                         <div class="row payment-month-container">
                             <div class="col-md-6 payment-month-item">
                                 <label for="date">Payment Month *</label>
@@ -669,16 +669,16 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                         <button type="button" class="btn btn-primary add-payment-month">Add Payment Month</button>
                     </div>
-            
+
                     <div class="form-group  row">
                         <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Save</button>
-                        
+
                     </div>
-            
+
                     </div>
             </form>
             </div>
@@ -686,7 +686,7 @@
                       </div>
         </div>
     </div>
-    
+
 
 
 

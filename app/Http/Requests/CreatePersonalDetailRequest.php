@@ -31,7 +31,7 @@ class CreatePersonalDetailRequest extends FormRequest
             'gender' => 'required|string|max:255',
             'disability_status' => 'required|string',
             'passport_photo' => 'nullable|string',
-            'tel_mobile' => 'required|string|max:255',
+            'tel_mobile' => 'required|numeric|max:9999999999',
             'ethnicity' => 'required|integer'
         ];
     }

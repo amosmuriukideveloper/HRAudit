@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employee_work_experience', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('personal_detail_id');
-            $table->string('position');
-            $table->unsignedBigInteger('job_grade_id')->nullable();
-            $table->date('employment_year')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('employee_work_experience')) {
+            Schema::create('employee_work_experience', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('personal_detail_id');
+                $table->string('position');
+                $table->unsignedBigInteger('job_grade_id')->nullable();
+                $table->date('employment_year')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

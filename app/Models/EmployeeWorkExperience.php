@@ -12,12 +12,12 @@ class EmployeeWorkExperience extends Model
     protected $table = 'employee_work_experience';
     protected $fillable = [
         'personal_detail_id',
-        'personal_detail_id',
         'position',
+        'position_type',
         'job_grade_id',
         'employment_year'
-            
-            
+
+
     ];
 
 }

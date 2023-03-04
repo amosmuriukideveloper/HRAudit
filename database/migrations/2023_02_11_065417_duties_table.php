@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('duties', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('personal_detail_id');
-            $table->string('duty_name');
-            $table->text('description');
-            $table->timestamps();
-        });
-        
+        if (!Schema::hasTable('duties')) {
+            Schema::create('duties', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('personal_detail_id');
+                $table->string('duty_name');
+                $table->text('description');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

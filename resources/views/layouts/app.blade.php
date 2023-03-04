@@ -13,6 +13,9 @@
         <!-- App css -->
         <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{asset('libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" />
 
         <!-- third party css -->
@@ -29,13 +32,13 @@
                    @include('layouts.navigation')
 
             <!-- Page Heading -->
-           
+
             <div class="content-page">
                 <div class="content">
-                    
+
                     <!-- Start Content-->
                     <div class="container-fluid">
-                    
+
                                 <!-- start page title -->
                                       <!-- start page title -->
                         <div class="row">
@@ -51,36 +54,36 @@
                                     <h4 class="page-title">HR Audit</h4>
                                 </div>
                             </div>
-                        </div>     
-                        <!-- end page title --> 
+                        </div>
+                        <!-- end page title -->
                         <x-validation-errors></x-validation-errors>
-                        <x-success-message></x-success-message>             
-                            
+                        <x-success-message></x-success-message>
+
                                 {{ $slot }}
 
                             </div>
-                        </div>     
-                        
-                    
+                        </div>
+
+
                     </div>
                 </div>
-                                        
+
                 <footer class="footer">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
                                 {{date("Y")}} &copy; data management tool by <a href="">AmosMuriukideveloper</a>
                             </div>
-            
+
                         </div>
                     </div>
-                    
-                    
-                </footer>      
 
-            </div>     
+
+                </footer>
+
+            </div>
         </div>
-       
+
         </div>
          <!-- Vendor js -->
     <script src="{{asset('js/vendor.min.js')}}"></script>
@@ -95,6 +98,7 @@
        <!-- Required datatable js -->
        <script src="{{asset('libs/datatables/jquery.dataTables.min.js') }}"></script>
        <script src="{{asset('libs/datatables/dataTables.bootstrap4.min.js') }}"></script>
+       <script src="{{asset('libs/select2/select2.min.js') }}"></script>
        <!-- Buttons examples -->
        <script src="{{asset('libs/datatables/dataTables.buttons.min.js') }}"></script>
        <script src="{{asset('libs/datatables/buttons.bootstrap4.min.js') }}"></script>
@@ -104,7 +108,8 @@
        <script src="{{asset('libs/datatables/buttons.html5.min.js') }}"></script>
        <script src="{{asset('libs/datatables/buttons.print.min.js') }}"></script>
        <script src="{{asset('js/pages/datatables.init.js') }}"></script>
-
+   <!-- Init js-->
+   <script src="{{asset('js/pages/form-advanced.init.js') }}"></script>
         <!-- App js -->
     <script src="{{asset('js/app.min.js')}}"></script>
 

@@ -13,20 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal_details', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('payroll_number');
-            $table->string('id_no');
-            $table->integer('age');
-            $table->enum('gender', ['male', 'female']);
-            $table->enum('disability_status', ['yes', 'no'])->nullable();
-            $table->enum('passport_photo', ['yes', 'no']);
-            $table->string('tel_mobile');
-            $table->unsignedBigInteger('ethnicity')->nullable();
-            $table->string('comments')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('personal_details')) {
+            Schema::create('personal_details', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('payroll_number');
+                $table->string('id_no');
+                $table->integer('age');
+                $table->enum('gender', ['male', 'female']);
+                $table->enum('disability_status', ['yes', 'no'])->nullable();
+                $table->enum('passport_photo', ['yes', 'no']);
+                $table->string('tel_mobile');
+                $table->unsignedBigInteger('ethnicity')->nullable();
+                $table->string('comments')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

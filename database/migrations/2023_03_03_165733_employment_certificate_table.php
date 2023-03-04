@@ -13,18 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employee_certificate', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('personal_detail_id');
-            $table->string('name')->nullable();
-            $table->string('index_number')->nullable();
-            $table->string('school')->nullable();
-            $table->string('certificate_number')->nullable();
-            $table->date('certificate_year')->nullable();
-            $table->text('comments')->nullable();
-            $table->timestamps();
-        });
-        
+        if (!Schema::hasTable('employee_certificate')) {
+            Schema::create('employee_certificate', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('personal_detail_id');
+                $table->string('name')->nullable();
+                $table->string('index_number')->nullable();
+                $table->string('school')->nullable();
+                $table->string('certificate_number')->nullable();
+                $table->date('certificate_year')->nullable();
+                $table->text('comments')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

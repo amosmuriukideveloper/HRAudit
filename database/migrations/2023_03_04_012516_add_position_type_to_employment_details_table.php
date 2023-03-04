@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('relationships')) {
-        Schema::create('relationships', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
-        });
-      }
+        if (Schema::hasTable('employee_work_experience')) {
+            Schema::table('employee_work_experience', function (Blueprint $table) {
+                $table->string('position_type')->nullable();
+            });
+        }
     }
 
     /**
@@ -29,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('employee_work_experience', function (Blueprint $table) {
+            //
+        });
     }
 };
