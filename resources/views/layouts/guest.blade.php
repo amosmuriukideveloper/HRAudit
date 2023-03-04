@@ -11,42 +11,35 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
-
+      <link rel="shortcut icon" href="assets/images/favicon.ico">
         <!-- App css -->
         <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{asset('libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" />
 
-         <!-- third party css -->
-         <link href="{{asset('libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-         <link href="{{asset('libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-         <link href="{{asset('libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    <body class="authentication-bg bg-gradient">
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="account-pages mt-5 pt-5 mb-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
                          {{ $slot }}
-                
-                
+
+
             </div>
         </div>
-  
+            </div>
+        </div>
     </body>
 
     <!-- Vendor js -->
     <script src="{{asset('js/vendor.min.js')}}"></script>
 
-   
+
 
      <!-- Responsive examples -->
      <script src="{{asset('libs/datatables/dataTables.responsive.min.js') }}"></script>
