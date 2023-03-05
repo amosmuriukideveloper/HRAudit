@@ -1,4 +1,3 @@
-
 <x-app-layout>
  
     <div class="row">
@@ -14,7 +13,7 @@
             <div class="card-box">
 
         <div class="card-title">
-            View BioData here
+            Manage BioData here
       
         </div>
 
@@ -39,9 +38,10 @@
                     <th scope="col">Passport Photo</th>
                     <th scope="col">Tel/Mobile</th>
                     <th scope="col">Ethnicity</th>
+                    <th scope="col">Comments</th>
                     <th scope="col">Department</th>
                     <th scope="col">Appointment Letter</th>
-                    <th scope="col">Date of Employment</th>
+                    <th scope="col">Employment Term</th>
                     <th scope="col">Probation Status</th>
                     <th scope="col">Current Position</th>
                     <th scope="col">Current Job Grade</th>
@@ -49,11 +49,12 @@
                     <th scope="col">Previous Job Grade</th>
                     <th scope="col">Academic Certificates</th>
                     <th scope="col">Professional Certificates</th>
-                    <th scope="col">Relatives</th>
+                    <th scope="col">Relative</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Job Title</th>
                     <th scope="col">Relationship</th>
+                    <th scope="col">Job Title</th>
                     <th scope="col">Department</th>
+                    <th scope="col">Study Leave</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
                     <th scope="col">Institution</th>
@@ -61,7 +62,9 @@
                     <th scope="col">Certificate Attained</th>
                     <th scope="col">Date</th>
                     <th scope="col">Approving Supervisor</th>
-                    <th scope="col">Promotion/Demotion</th>
+                    <th scope="col">Comments</th>
+                    
+                  
                     <th scope="col">Month</th>
 
 
@@ -82,32 +85,61 @@
                       <td>{{ $personal->passport_photo }}</td>
                       <td>{{ $personal->tel_mobile }}</td>
                       <td>{{ $personal->ethnicity }}</td>
+                      <td>{{ $personal->comments }}</td>
                       <td>{{ $personal->employmentDetails->department->name ?? '' }}</td>
                       <td>{{ optional($personal->employmentDetails)->appointment_letter == 1 ? 'Yes' : 'No' }}</td>
-                      <td>{{ $personal->employmentDetails->employment_term_id ?? '' }}</td>
-                      <td>{{ optional($personal->employmentDetails)->date }}</td>
-                      <td>{{ optional($personal->employmentDetails)->probation_status }}</td>
-                      <td>{{ $personal->employmentDetails->current_position->name ?? '' }}</td>
-                      <td>{{ optional($personal->employmentDetails)->current_job_grade }}</td>
-                      <td>{{ optional($personal->employmentDetails)->previous_position }}</td>
-                      <td>{{ optional($personal->employmentDetails)->previous_job_grade }}</td>
-                      <td>{{ optional($personal->employmentDetails)->academic_certificates }}</td>
-                      <td>{{ optional($personal->employmentDetails)->professional_certificates }}</td>
-                      <td>{{ optional($personal->employmentChanges)->relative_id }}</td>
-                      <td>{{ optional($personal->employmentChanges)->name }}</td>
-                      <td>{{ optional($personal->employmentChanges)->job_title }}</td>
+                      <td>{{ optional($personal->employmentDetails)->employment_term_id ?? '' }}</td>
+                      <td>{{ optional($personal->employmentDetails)->probation_statuses_id ?? '' }}</td>
+                      <td>{{ optional($personal->employment_work_experience)->position ?? '' }}</td>
+                      <td>{{ optional($personal->employment_work_experience)->job_grade_id ?? '' }}</td>
+                      <td>{{ optional($personal->employmentDetails)->employment_year ?? '' }}</td>
+                      <td>{{ optional($personal->employmentDetails)->date ?? '' }}</td>
+                     
+                      
+
+
+                      <td>{{ optional($personal->employeeCertificates)->name ?? '' }}</td>
+                      <td>{{ optional($personal->employeeCertificates)->index_number?? '' }}</td>
+                      <td>{{ optional($personal->employeeCertificates)->school?? '' }}</td>
+                      <td>{{ optional($personal->employeeCertificates)->certificate_number?? '' }}</td>
+                      <td>{{ optional($personal->employeeCertificates)->certificate_year?? '' }}</td>
+                      <td>{{ optional($personal->employeeCertificates)->comments?? '' }}</td>
+                    
+                      <td>{{ optional($personal->professional_certificates)->professional_body ?? '' }}</td>
+                      <td>{{ optional($personal->professional_certificates)->membership_number?? '' }}</td>
+                      <td>{{ optional($personal->professional_certificates)->license_number?? '' }}</td>
+                      <td>{{ optional($personal->professional_certificates)->cert_year?? '' }}</td>
+                      <td>{{ optional($personal->professional_certificates)->membership_status?? '' }}</td>
+                      
+
+
+                      <td>{{ $personal->employmentChanges->relative_id ?? '' }}</td>
+                      <td>{{ $personal->employmentChanges->name ?? ''}}</td>
                       <td>{{ optional($personal->employmentChanges)->relationship }}</td>
+                      <td>{{ optional($personal->employmentChanges)->job_title }}</td>
                       <td>{{ optional($personal->employmentChanges)->department }}</td>
                       <td>{{ optional($personal->employmentChanges)->study_leave }}</td>
                       <td>{{ optional($personal->employmentChanges)->start_date }}</td>
+                      <td>{{ optional($personal->employmentChanges)->end_date }}</td>
                       <td>{{ optional($personal->employmentChanges)->institution }}</td>
                       <td>{{ optional($personal->employmentChanges)->course }}</td>
-                      <td>{{ optional($personal->employmentChanges)->certificate }}</td>
+                      <td>{{ optional($personal->employmentChanges)->name }}</td>
                       <td>{{ optional($personal->employmentChanges)->date }}</td>
-                      <td>{{ optional($personal->employmentChanges)->approving_supervisor }}</td>
-                      <td>{{ optional($personal->employmentChanges)->change_type }}</td>
+                      <td>{{ optional($personal->employmentChanges)->approving_signatory }}</td>
+
                       {{-- <td>{{ optional($personal->payslip->payment_month)}}</td> --}}
-                      
+                      <td>{{ optional($personal->payslip)->payment_month }}</td>
+    <td>{{ optional($personal->payslip)->basic_salary }}</td>
+    <td>{{ optional($personal->payslip)->total_earnings }}</td>
+    <td>{{ optional($personal->payslip)->pf_number }}</td>
+    <td>{{ optional($personal->payslip)->name }}</td>
+    <td>{{ optional($personal->payslip)->station_name }}</td>
+    <td>{{ optional($personal->payslip)->station_code }}</td>
+    <td>{{ optional($personal->payslip)->desig_code }}</td>
+    <td>{{ optional($personal->payslip)->desig_name }}</td>
+    <td>{{ optional($personal->payslip)->id_no }}</td>
+    <td>{{ optional($personal->payslip)->tax_pin }}</td>
+    <td>{{ optional($personal->payslip)->comments }}</td>
                       @endforeach
                 </tbody>
             </table>

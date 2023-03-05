@@ -6,6 +6,8 @@ use App\Http\Requests\CreateEmployeeCertificateRequest;
 use App\Http\Requests\UpdateEmployeeCertificateRequest;
 use App\Models\Certificate;
 use App\Models\EmployeeCertificate;
+use App\Models\OtherCertificate;
+use App\Models\ProfessionalCertificate;
 
 class EmployeeCertificateController extends Controller
 {
@@ -44,6 +46,8 @@ class EmployeeCertificateController extends Controller
 
         $request->validated();
         $certificates = $request->name;
+        $other_certificates = $request->cert_title;
+        $professional_certificates = $request->membership_number;
 
     //    dd($request->validated());
         foreach($certificates as $key => $certificate) {
@@ -56,9 +60,37 @@ class EmployeeCertificateController extends Controller
                 'certificate_number' =>$request->certificate_number[$key],
                 'comments' => $request->comments
             ]);
+        }
 
 
+        
+            foreach($other_certificates as $key => $certificate) {
+
+                OtherCertificate::create([
+                    'personal_detail_id' => $id,
+                    'cert_title' => $certificate,
+                    'course' => $request->course[$key],
+                    'cert_year' => $request->cert_year[$key],
+                    'cert_number' => $request->cert_number[$key],
+                    
+                ]);
+                
     }
+
+    foreach($professional_certificates as $key => $membership) {
+        ProfessionalCertificate::create([
+            'personal_detail_id' => $id,
+            'professional_body' => $request->professional_body[$key],
+            'membership_number' => $request->membership_number[$key],
+            'license_number' => $request->license_number[$key],
+            'cert_year' => $request->cert_year[$key],
+            'membership_status' => $request->membership_status[$key]
+        ]);
+    }
+    
+
+
+    
     return redirect()->route('employment.change.next', $id)->with('success', 'Employee Certificate Details have been added');
 }
 

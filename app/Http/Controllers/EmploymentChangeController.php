@@ -75,6 +75,7 @@ class EmploymentChangeController extends Controller
             'certificate' => $request->certificate,
             'date' => $request ->date.'-01',
             'approving_signatory' => $request ->approving_signatory,
+            // 'coments' => $request->comments,
         ]);
 
 

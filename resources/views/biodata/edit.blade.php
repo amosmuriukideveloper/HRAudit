@@ -28,11 +28,11 @@
                     Employment Details
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item"> 
                 <a href="#profile2" data-toggle="tab" aria-expanded="true" class="nav-link">
                     Certificates
                 </a>
-            </li> --}}
+            </li> 
 
 
             <li class="nav-item">
@@ -159,6 +159,8 @@
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="passport_photo" value="yes" {{ $personalDetail->passport_photo == 'yes' ? 'checked' : '' }}> Yes
                                                 </label>
+                                            </div>
+                                            <div class="">
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="passport_photo" value="no" {{ $personalDetail->passport_photo == 'no' ? 'checked' : '' }}> No
                                                 </label>
@@ -241,56 +243,45 @@
                                     <div class="form-group  row">
 
                                         {{-- Department --}}
-                                        <div class="col-md-6">
-                                            <label class="control-label" for="department_id">Department *</label>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="department_id">Department  <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <select id="department_id" name="department_id" class="required form-control">
-                                                    <option value="">Select a department</option>
+                                                <select id="department_id" name="department_id" class="select2 form-control">
+                                                    <option value="">Select Department</option>
                                                     @foreach ($departments as $department)
-                                                        <option value="{{ $department->id }}" {{ (old('ethnicity_id',$personalDetail->department_id) == $department->id) ? 'selected' : '' }}>{{ $department->name }}</option>
+                                                        <option value="{{ $department->id }}" {{ old('department_id', optional($personalDetail->employmentDetails)->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @if ($errors->has('department_id'))
+                                                    <span class="text-danger text-left">{{ $errors->first('department_id') }}</span>
+                                                @endif
                                             </div>
-                                            @if ($errors->has('department_id'))
-                                                <span class="text-danger text-left">{{ $errors->first('department_id') }}</span>
-                                            @endif
                                         </div>
+                                        
 
 
 
                                          {{-- appointment_letter --}}
 
-                                         <div class="col-md-6">
-                                            <label class="control-label" for="appointment_letter_id">Appointment Letter *</label>
-                                            <div class="">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="appointment_letter" id="yes" value="1" {{ $personalDetail->appointment_letter == 1 ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="yes">Yes</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="appointment_letter" id="no" value="0" {{ $personalDetail->appointment_letter == 0 ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="no">No</label>
-                                                </div>
-                                                @if ($errors->has('appointment_letter'))
-                                                    <span class="text-danger text-left">{{ $errors->first('appointment_letter') }}</span>
-                                                @endif
-                                            </div>
+                                         <div class="col-md-3">
+                                            <label class="control-label" for="appointment_letter">Appointment Letter <span class="text-danger">*</span></label>
+                                            <select id="appointment_letter" name="appointment_letter" class="select2 form-control">
+                                                <option value="">Select Appointment Letter</option>
+                                                <option value="1" {{ old('appointment_letter', optional($personalDetail->employmentDetails)->appointment_letter) == 1 ? 'selected' : '' }}>Yes</option>
+                                                <option value="0" {{ old('appointment_letter', optional($personalDetail->employmentDetails)->appointment_letter) == 0 ? 'selected' : '' }}>No</option>
+                                            </select>
+                                            @if ($errors->has('appointment_letter'))
+                                                <span class="text-danger text-left">{{ $errors->first('appointment_letter') }}</span>
+                                            @endif
                                         </div>
-
-
-
-                                    </div>
-
-                                    {{-- employment_term_id --}}
-
-                                    <div class="form-group  row">
-                                        <div class="col-md-6">
-                                            <label class="control-label" for="employment_term_id">Employment Term *</label>
+                                        
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="employment_term_id_id">Employment Term <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <select id="employment_term_id" name="employment_term_id" class="required form-control">
-                                                    <option value="">Select an Employment Term</option>
+                                                <select id="employment_term_id" name="employment_term_id" class="select2 form-control">
+                                                    <option value="">Select Employment Term</option>
                                                     @foreach ($employmentTerms as $employmentTerm)
-                                                        <option value="{{ $employmentTerm->id }}" @if ($personalDetail->employment_term_id == $employmentTerm->id) selected @endif>{{ $employmentTerm->name }}</option>
+                                                        <option value="{{ old('employment_term_id', $employmentTerm->id) }}" {{ $personalDetail->employment_term_id == $employmentTerm->id ? 'selected' : '' }}>{{ $employmentTerm->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @if ($errors->has('employment_term_id'))
@@ -299,146 +290,192 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="probation_statuses_id">Probation Status <span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="probation_statuses_id" id="" class="select2 form-control">
+                                                    <option value="">Select Probation Status</option>
+                                                    <option value="1" {{ old('probation_statuses_id', $personalDetail->probation_statuses_id) == '1' ? 'selected' : '' }}>Active</option>
+                                                    <option value="2" {{ old('probation_statuses_id', $personalDetail->probation_statuses_id) == '2' ? 'selected' : '' }}>Inactive</option>
+                                                </select>
+                                                @if ($errors->has('probation_statuses_id'))
+                                                    <span class="text-danger text-left">{{ $errors->first('probation_statuses_id') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        
 
-                                            {{-- probation_status --}}
 
+                                    </div>
 
-                                            <div class="col-md-6">
-                                                <label class="control-label" for="probation_statuses_id">Probation Status *</label>
-                                                <div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="probation_statuses_id" id="probation_status_active" value="1" {{ old('probation_statuses_id', $personalDetail->probation_statuses_id) == '1' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="probation_status_active">Active</label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="probation_statuses_id" id="probation_status_not_active" value="2" {{ old('probation_statuses_id', $personalDetail->probation_statuses_id) == '2' ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="probation_status_not_active">Not Active</label>
-                                                    </div>
-                                                    @if ($errors->has('probation_statuses_id'))
-                                                        <span class="text-danger text-left">{{ $errors->first('probation_statuses_id') }}</span>
+                              
+                            </div>
+
+                            <div class="form-group" >
+                                <label class="control-label">Work Experience</label>
+                                <div id="previous_work_experience_fields">
+                                    {{-- Previous Position --}}
+                                    <div class="form-group row  pb-2 pt-2" style="border-top:1px solid #ccc; border-bottom:1px solid #ccc">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="position">Position *</label>
+                                            <div class="">
+                                                <input  name="position[]" type="text" class="select2 form-control" value="{{ old('position.0', $personalDetail->position ?? '') }}">
+
+                                                @if ($errors->has('position'))
+                                                    <span class="text-danger text-left">{{ $errors->first('position') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="position_type">Position Type <span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <select name="position_type[]" id="" class="select2 form-control">
+                                                    <option value="">Select Position Type</option>
+                                                    <option value="current">Current</option>
+                                                    <option value="previous">Previous</option>
+                                                </select>
+                                            </div>
+                                            @if ($errors->has('position_type'))
+                                                <span class="text-danger text-left">{{ $errors->first('position_type') }}</span>
+                                            @endif
+                                        </div>
+                                            {{-- Previous JobGrade --}}
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="job_grade_id">Job Grade *</label>
+                                                <div class="">
+                                                    <select id="job_grade_id" name="job_grade_id[]" class="select2 form-control">
+                                                        <option value="">Select Job Grade</option>
+                                                        @foreach ($jobGrades as $jobGrade)
+                                                            <option value="{{ old('job_grade_id.0', $jobGrade->id) }}" {{ old('job_grade_id.'.$loop->index, $personalDetail->job_grade_id) == $jobGrade->id ? 'selected' : '' }}>{{ $jobGrade->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('job_grade_id'))
+                                                        <span class="text-danger text-left">{{ $errors->first('job_grade_id') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
-
-
-
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-4">
-                                            <label class="control-label" for="position_id">Current Position *</label>
-                                            <div>
-                                                <input id="position_id" name="position_id" type="text" class="required form-control" value="{{ old('position_id') ?? $personalDetail->position_id }}" placeholder="Enter Current Position">
-                                                @if ($errors->has('position_id'))
-                                                    <span class="text-danger text-left">{{ $errors->first('position_id') }}</span>
-                                                @endif
+                                            
+                
+                                            {{-- Previous Employment Year --}}
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="employment_year">Employment Year *</label>
+                                                <div class="">
+                                                    <input id="employment_year" name="employment_year[]" type="date" class="select2 form-control" value="{{ old('employment_year.0', $personalDetail->employment_year ?? null) }}" max="{{ date('Y') }}">
+                                                    @if ($errors->has('employment_year'))
+                                                        <span class="text-danger text-left">{{ $errors->first('employment_year') }}</span>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        {{-- Current JobGrade --}}
-
-                                        <div class="col-md-4">
-                                            <label class="control-label" for="job_grade_id">Current Job Grade *</label>
-                                            <div>
-                                                <select id="job_grade_id" name="job_grade_id" class="required form-control">
-                                                    <option value="">Select current Job Grade</option>
-                                                    @foreach ($jobGrades as $jobGrade)
-                                                        <option value="{{ $jobGrade->id }}" {{ old('job_grade_id', $personalDetail->job_grade_id) == $jobGrade->id ? 'selected' : '' }}>{{ $jobGrade->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @if ($errors->has('job_grade_id'))
-                                                    <span class="text-danger text-left">{{ $errors->first('job_grade_id') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label class="control-label" for="previous_employment_year">Current Employment Year *</label>
-                                            <div>
-                                                <input id="previous_employment_year" name="previous_employment_year" type="month" class="required form-control" value="{{ old('previous_employment_year.0') ?? $personalDetail->previous_employment_year }}" max="{{ date('Y') }}">
-                                                @if ($errors->has('previous_employment_year'))
-                                                    <span class="text-danger text-left">{{ $errors->first('previous_employment_year') }}</span>
-                                                @endif
-                                            </div>
+                                            
                                         </div>
                                     </div>
-
-
-
-                                    {{-- Previous Position --}}
-<div class="form-group">
-    <label class="control-label">Previous Work Experience</label>
-    <div id="previous_work_experience_fields">
-        {{-- Previous Position --}}
-        <div class="form-group row">
-            <div class="col-md-4">
-                <label class="control-label" for="position">Previous Position *</label>
-                <div class="">
-                    <input id="previous_position" name="position[]" type="text" class="required form-control" value="{{ old('previous_position.0') }}">
-                    @if ($errors->has('position'))
-                        <span class="text-danger text-left">{{ $errors->first('previous_position') }}</span>
-                    @endif
-                </div>
-            </div>
-
-            {{-- Previous JobGrade --}}
-            <div class="col-md-4">
-                <label class="control-label" for="job_grade_id">Previous Job Grade *</label>
-                <div class="">
-                    <select id="job_grade_id" name="job_grade_id[]" class="required form-control">
-                        <option value="">Select previous Job Grade</option>
-                        @foreach ($jobGrades as $jobGrade)
-                            <option value="{{ old('job_grade_id.0',$jobGrade->id) }}">{{ $jobGrade->name }}</option>
-                        @endforeach
-                    </select>
-                    @if ($errors->has('job_grade_id'))
-                        <span class="text-danger text-left">{{ $errors->first('job_grade_id') }}</span>
-                    @endif
-                </div>
-            </div>
-
-            {{-- Previous Employment Year --}}
-            <div class="col-md-4">
-                <label class="control-label" for="employment_year">Previous Employment Year *</label>
-                <div class="">
-                    <input id="employment_year" name="employment_year[]" type="month" class="required form-control" value="{{ old('employment_year.0') }}" max="{{ date('Y') }}">
-                    @if ($errors->has('employment_year'))
-                        <span class="text-danger text-left">{{ $errors->first('employment_year') }}</span>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" id="add_previous_work_experience" class="btn btn-info">Add Previous Work Experience</button>
-</div>
-
-
-
-
-
+                                    <button type="button" id="add_previous_work_experience" class="btn btn-outline-info btn-rounded btn-sm"><i style="font-size:16px" class="mdi mdi-clipboard-plus"></i>Add Work Experience</button>
+                                </div>
+                
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label class="control-label" for="comments">Comments</label>
                                         <div>
-                                            <textarea id="comments" name="comments" class="form-control">{{ $personalDetail->comments ?? old('comments') }}</textarea>
+                                            <textarea id="comments" name="comments" class="form-control{{ $personalDetail ? ' personalDetail' : '' }}">{{old('comments')}}</textarea>
                                         </div>
+                                        @if ($errors->has('comments'))
+                                            <span class="text-danger text-left">{{ $errors->first('comments') }}</span>
+                                        @endif
                                     </div>
                                 </div>
+                                
+                
+                                        {{-- Submit --}}
+                                        <div class="form-group  row">
+                                            <div class="p-2" >
+                                            <button type="submit" class="btn btn-outline-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Next Section : Employment Changes/Moves</button>
+                                            </div>
+                                        </div>
+                                </fieldset>
+                            </form>
+                    
 
 
 
-                                    {{-- Submit --}}
-                                    <div class="form-group  row">
-                                        <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Save Changes</button>
-
-                                    </div>
-                            </div>
-                        </form>
+                                                  
+                           
 
                     </div>
                 </div>
 
             </div>
+
+            <div class="tab-pane show" id="profile2">
+
+                <div class="col-md-12">
+                    <div class="card-box input-card" >
+                        <div class="card-header mb-2" style="border:1px solid #ccc">
+                             <h4 class="header-title text-info"><b>Step 3: Certificates</b></h4>
+                        </div>
+                        <form id="basic-form" action="{{ route('employee.certificate.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+                           <fieldset>
+                             <legend>Add Academic certificates</legend>
+                                <div >
+                                    <div class="p-1">
+                                        <button type="button" class="btn btn-outline-info btn-xs  mt-4" onclick="addCertificate()"><i class="mdi mdi-note-plus-outline"></i> Add Certificate</button>
+            
+                                     </div>
+            
+            
+                                         <div class="row p-2">
+            
+                                            <div class="form-group">
+            
+            
+                                                <div id="other_certificates">
+                                                    <table class="table table-bordered">
+                                                        <th>Certificate Title</th>
+                                                        <th>Index/Registration No</th>
+                                                        <th>Institution</th>
+                                                        <th>Certificate No</th>
+                                                        <th>Year</th>
+                                                    </table>
+                                                    <!-- dynamic input fields for other certificates will be added here -->
+                                                </div>
+            
+                                             </div>
+            
+                                          </div>
+            
+            
+            
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <label class="control-label" for="comments">Comments</label>
+                                                <div>
+                                                    <textarea id="comments" name="comments" class="form-control">{{old('comments')}}</textarea>
+                                                </div>
+                                                @if ($errors->has('comments'))
+                                                    <span class="text-danger text-left">{{ $errors->first('comments') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+            
+                                        <div class="form-group row" >
+                                            <div class="p-2" >
+                                            <button type="submit" class="btn btn-outline-info btn-sm btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline" ></i> Next Section : Employment Changes</button>
+                                            </div>
+                                        </div>
+            
+            
+            
+                                    </div>
+                                </div>
+                           </fieldset>
+                        </form>
+            
+                    </div>
+                </div>
+
+            
             <div class="tab-pane" id="messages1">
                 <div class="col-md-12">
                     <div class="card-box" style="border:1px solid #ccc">
@@ -457,29 +494,39 @@
 
 
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="control-label">Relative *</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="relative_id" id="yes" value="1" {{ old('relative_id', $personalDetail->relative_id) == 'yes' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="yes">Yes </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="relative_id" id="no" value="0" {{ old('relative_id', $personalDetail->relative_id) == 'no' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="no">No</label>
-                                        </div>
+                                        <select name="relative_id" class="select2 form-control">
+                                            <option value="">Do You Have Relative</option>
+                                            <option value="1" {{ old('relative_id', $personalDetail->relative_id) == 'yes' ? 'selected' : '' }}>Yes</option>
+                                            <option value="0" {{ old('relative_id', $personalDetail->relative_id) == 'no' ? 'selected' : '' }}>No</option>
+                                        </select>
                                         @if ($errors->has('relative_id'))
                                             <span class="text-danger">{{ $errors->first('relative_id') }}</span>
                                         @endif
                                     </div>
-                                    <div class="col-md-6">
+                                    
+                                    <div class="col-md-4">
                                         <label class="control-label" for="name"> Name *</label>
                                         <div class="">
-                                            <input id="name" name="name" value="{{ old('name', $personalDetail->name) }}" type="text" class="required form-control">
+                                            <input id="name" name="name" value="{{ old('name', $personalDetail->name ?? '') }}" type="text" class="required form-control">
                                         </div>
                                         @if ($errors->has('name'))
                                             <span class="text-danger text-left">{{ $errors->first('name') }}</span>
                                         @endif
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <label class="control-label" for="relationship">Relationship *</label>
+                                        <div class="">
+                                            <input type="text" id="relationship" name="relationship" class="required form-control" value="{{ $personalDetail ? $personalDetail->relationship : old('relationship') }}" placeholder="Enter relationship">
+                                        </div>
+                                        @if ($errors->has('relationship'))
+                                            <span class="text-danger text-left">{{ $errors->first('relationship') }}</span>
+                                        @endif
+                                    </div>
+                                    
+                                    
                                 </div>
 
 
@@ -487,12 +534,7 @@
                                     <div class="col-md-6">
                                         <label class="control-label" for="job_title_id">Job Title *</label>
                                         <div class="">
-                                            <select id="job_title_id" name="job_title_id" class="required form-control">
-                                                <option value="">Select a job title</option>
-                                                @foreach ($jobTitles as $jobTitle)
-                                                    <option value="{{ old('job_title_id', $jobTitle->id) }}" {{ $personalDetail->job_title_id == $jobTitle->id ? 'selected' : '' }}>{{ $jobTitle->name }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" id="job_title_id" name="job_title_id" class="required form-control" value="{{ old('job_title_id', $personalDetail->job_title_id ?? '') }}" placeholder="Enter job title">
                                         </div>
                                         @if ($errors->has('job_title_id'))
                                             <span class="text-danger text-left">{{ $errors->first('job_title_id') }}</span>
@@ -500,24 +542,14 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label class="control-label" for="relationship">Relationship *</label>
-                                        <div class="">
-                                            <input type="text" id="relationship" name="relationship" class="required form-control" value="{{ old('relationship', $personalDetail->relationship) }}" placeholder="Enter relationship">
-                                        </div>
-                                        @if ($errors->has('relationship'))
-                                            <span class="text-danger text-left">{{ $errors->first('relationship') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-6">
                                         <label class="control-label" for="department_id">Department *</label>
-                                        <div>
-                                            <select id="department_id" name="department_id" class="required form-control">
+                                        <div class="">
+                                            <select name="department_id" class="select2 form-control">
                                                 <option value="">Select a department</option>
                                                 @foreach ($departments as $department)
-                                                    <option value="{{ old('department_id', $department->id) }}" {{ $personalDetail->department_id == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                                    <option value="{{ $department->id }}" {{ old('department_id', $personalDetail->department_id) == $department->id ? 'selected' : '' }}>
+                                                        {{ $department->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->has('department_id'))
@@ -525,10 +557,19 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    
+                                    
+                                    
+
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                   
+                                    <div class="col-md-4">
                                         <label class="control-label" for="study_leave">Study Leave *</label>
-                                        <div>
-                                            <select id="study_leave" name="study_leave" class="required form-control">
+                                        <div class="">
+                                            <select id="study_leave" name="study_leave" class="select2 form-control">
                                                 <option value="">Select an option</option>
                                                 <option value="1" {{ old('study_leave', $personalDetail->study_leave) == '1' ? 'selected' : '' }}>Yes</option>
                                                 <option value="0" {{ old('study_leave', $personalDetail->study_leave) == '0' ? 'selected' : '' }}>No</option>
@@ -538,35 +579,35 @@
                                             <span class="text-danger text-left">{{ $errors->first('study_leave') }}</span>
                                         @endif
                                     </div>
-                                </div>
 
-
-                                <div class="form-group row">
-
-                                    <div class="col-md-6">
-                                        <label class="control-label" for="name">Start Date *</label>
+                                    <div class="col-md-4">
+                                        <label class="control-label" for="name"> Start Date *</label>
                                         <div class="">
-                                            <input id="start_date" name="start_date" value="{{ old('start_date', $personalDetail->start_date) }}" type="month" class="required form-control">
+                                            <input id="start_date" name="start_date" value="{{old('start_date', $personalDetail->start_date)}}" type="date" class="required form-control">
                                         </div>
                                         @if ($errors->has('start_date'))
                                             <span class="text-danger text-left">{{ $errors->first('start_date') }}</span>
                                         @endif
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <label class="control-label" for="name">End Date *</label>
+                                    <div class="col-md-4">
+                                        <label class="control-label" for="name"> End Date *</label>
                                         <div class="">
-                                            <input id="end_date" value="{{ old('end_date', $personalDetail->end_date) }}" name="end_date" type="month" class="required form-control">
+                                            <input id="end_date" value="{{ old('end_date', $personalDetail->end_date ?? '') }}" name="end_date" type="date" class="required form-control">
                                         </div>
                                         @if ($errors->has('end_date'))
                                             <span class="text-danger text-left">{{ $errors->first('end_date') }}</span>
                                         @endif
                                     </div>
-
+                                    
+                                    
+                                    
                                 </div>
 
+
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-4">
                                         <label class="control-label" for="institution">Institution *</label>
                                         <div class="">
                                             <input type="text" id="institution" name="institution" class="required form-control" value="{{ old('institution', $personalDetail->institution) }}" placeholder="Enter institution name">
@@ -575,21 +616,18 @@
                                             <span class="text-danger text-left">{{ $errors->first('institution') }}</span>
                                         @endif
                                     </div>
-
-                                    <div class="col-md-6">
+                                       
+                                    <div class="col-md-4">
                                         <label class="control-label" for="course">Course *</label>
                                         <div class="">
-                                            <input type="text" id="course" name="course" class="required form-control" value="{{ old('course', $personalDetail->course) }}" placeholder="Enter course name">
+                                            <input type="text" id="course" name="course" class="required form-control" value="{{ old('course', $personalDetail->course ?? '') }}" placeholder="Enter course name">
                                         </div>
                                         @if ($errors->has('course'))
                                             <span class="text-danger text-left">{{ $errors->first('course') }}</span>
                                         @endif
                                     </div>
-                                </div>
-
-
-                                <div class="form-group  row">
-                                    <div class="col-md-6">
+                                    
+                                    <div class="col-md-4">
                                         <label class="control-label" for="certificate">Certificate Attained *</label>
                                         <div class="">
                                             <input type="text" id="certificate" name="certificate" class="required form-control" value="{{ old('certificate', $personalDetail->certificate ?? '') }}" placeholder="Enter certificate name">
@@ -598,28 +636,49 @@
                                             <span class="text-danger text-left">{{ $errors->first('certificate') }}</span>
                                         @endif
                                     </div>
+                                    
 
+                                </div>
+
+                                <div class="form-group row">
+                                    
                                     <div class="col-md-6">
                                         <label class="control-label" for="name"> Date *</label>
                                         <div class="">
-                                            <input id="date" value="{{ old('date', $personalDetail->date ?? '') }}" name="date" type="month" class="required form-control">
+                                            <input id="date" name="date" type="date" class="required form-control" value="{{ old('date', $personalDetail->date ?? '') }}">
                                         </div>
                                         @if ($errors->has('date'))
                                             <span class="text-danger text-left">{{ $errors->first('date') }}</span>
                                         @endif
                                     </div>
-                                </div>
 
-                                <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label class="control-label" for="approving_signatory">Approving Signatory *</label>
+                                        <label class="control-label" for="approving_signatory"> Approving Signatory *</label>
                                         <div class="">
-                                            <input id="approving_signatory" value="{{ $personalDetail->approving_signatory ?? old('approving_signatory') }}" name="approving_signatory" type="text" class="required form-control">
+                                            <input id="approving_signatory" value="{{ old('approving_signatory', $personalDetail->approving_signatory) }}" name="approving_signatory" type="text" class="required form-control">
                                         </div>
                                         @if ($errors->has('approving_signatory'))
                                             <span class="text-danger text-left">{{ $errors->first('approving_signatory') }}</span>
                                         @endif
                                     </div>
+                                    
+                                   
+                                </div>
+
+
+                              
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <label class="control-label" for="comments">Comments</label>
+                                        <div>
+                                            <textarea id="comments" name="comments" class="form-control">{{old('personalDetail.comments')}}</textarea>
+                                        </div>
+                                        @if ($errors->has('comments'))
+                                            <span class="text-danger text-left">{{ $errors->first('comments') }}</span>
+                                        @endif
+                                    </div>
+                                    
                                 </div>
 
 
@@ -638,51 +697,153 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="settings1">
+            {{-- <div class="tab-pane" id="settings1">
                 <div class="col-md-12">
-                    <div class="card-box "  style="border:1px solid #ccc">
+                    <div class="card-box input-card">
                         <div class="card-header mb-2" style="border:1px solid #ccc">
-                             <h4 class="header-title"><b>HR Audit BioData Form</b></h4>
+                             <h4 class="header-title text-info"><b>STEP 4: Payment Details </b></h4>
                         </div>
-
-                        <form id="basic-form" action="{{ route('personal.details.store')}}" method="POST" enctype="multipart/form-data">
+            
+                        <form id="basic-form" action="{{ route('payslip.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
-                            <div>
-                                <h3>Payment Details</h3>
-
-                    <div class="form-group  row">
-                       <!-- HTML Code -->
-
-                        <div class="row payment-month-container">
-                            <div class="col-md-6 payment-month-item">
-                                <label for="date">Payment Month *</label>
-                                <div class="input-group">
-                                    <input id="date" value="{{old('date')}}" name="date" type="date" class="required form-control" style="width: 50%;">
-                                    <button type="button" class="btn btn-danger remove-payment-month">Remove</button>
-                                </div>
-                                <div class="input-group">
-                                    <input id="payment_month" value="{{ old('payment_month') }}" name="payment_month" type="text" class="required form-control">
-                                </div>
-                                @if ($errors->has('payment_month'))
-                                    <span class="text-danger text-left">{{ $errors->first('payment_month') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                        <button type="button" class="btn btn-primary add-payment-month">Add Payment Month</button>
-                    </div>
-
-                    <div class="form-group  row">
-                        <button type="submit" class="btn btn-primary btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Save</button>
-
-                    </div>
-
-                    </div>
-            </form>
+                           <fieldset >
+                            <legend>Fill In Details Below</legend>
+            
+                                <form id="basic-form" action="{{ route('personal.details.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="form-group">
+                                        <div class="p-2">
+                                            <button type="button" class="btn btn-outline-info btn-sm waves-effect waves-light add-payment-month">Add Payment Details</button>
+                                        </div>
+                                        <div class="payment-months-container">
+                                            <div class="form-row payment-month-item m-4 p-4" style="border:1px solid #4fbde9;">
+                                                <div class="col-md-12 p-1 mb-1" style="border-bottom:1px solid #4fbde9 ">
+                                                    <span class="float-left"> Payslip Details</span>
+                                                    <span class="float-right">
+                                                        <button type="button" class="btn btn-outline-danger btn-xs waves-effect remove-payment-month">Remove </button>
+                                                    </span>
+            
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="date">Payment Month *</label>
+                                                    <div class="input-group">
+                                                        <input id="date" name="date[]" type="date" class="form-control" value="{{ old('date', $personalDetail['payment_month']) }}">
+                                                    </div>
+                                                    @if ($errors->has('date[]'))
+                                                        <span class="text-danger text-left">{{ $errors->first('date[]') }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="pf_number">Basic Salary *</label>
+                                                    <input name="basic_salary[]" type="text" class="form-control" value="{{ old('basic_salary')[$index] ?? '' }}">
+                                                    @if ($errors->has('basic_salary'))
+                                                        <span class="text-danger text-left">{{ $errors->first('basic_salary') }}</span>
+                                                    @endif
+                                                </div>
+                                                 
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="total_earnings">Total Earnings *</label>
+                                                    <input name="total_earnings[{{$loop->index}}]" type="text" class="form-control" value="{{ old('total_earnings.'.$loop->index, isset($personalDetail) ? $personalDetail->total_earnings[$loop->index] : '') }}">
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="pf_number">PF Number *</label>
+                                                    <input id="pf_number" name="pf_number[{{$loop->index}}]" type="text" class="form-control" value="{{ old('pf_number.'.$loop->index, isset($personalDetail) ? $personalDetail->pf_number[$loop->index] : '') }}">
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="tax_pin">Tax Pin*</label>
+                                                    <input name="tax_pin[{{$loop->index}}]" type="text" class="form-control" value="{{ old('tax_pin.'.$loop->index, isset($personalDetail) ? $personalDetail->tax_pin[$loop->index] : '') }}">
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="name">Name *</label>
+                                                    <input id="name" name="name[]" type="text" class="form-control" value="{{ old('name')[$loop->index] ?? '' }}">
+                                                    @if ($errors->has("name.$loop->index"))
+                                                        <span class="text-danger text-left">{{ $errors->first("name.$loop->index") }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="station_name">Station Name *</label>
+                                                    <input id="station_name" name="station_name[]" type="text" class="form-control" value="{{ old('station_name')[$loop->index] ?? '' }}">
+                                                    @if ($errors->has("station_name.$loop->index"))
+                                                        <span class="text-danger text-left">{{ $errors->first("station_name.$loop->index") }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="station_code">Station Code *</label>
+                                                    <input id="station_code" name="station_code[]" type="text" class="form-control" value="{{ old('station_code')[$loop->index] ?? '' }}">
+                                                    @if ($errors->has("station_code.$loop->index"))
+                                                        <span class="text-danger text-left">{{ $errors->first("station_code.$loop->index") }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="desig_code">Desig Code *</label>
+                                                    <input id="desig_code" name="desig_code[]" type="text" class="form-control" value="{{ old('desig_code')[$loop->index] ?? '' }}">
+                                                    @if ($errors->has("desig_code.$loop->index"))
+                                                        <span class="text-danger text-left">{{ $errors->first("desig_code.$loop->index") }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="desig_name">Desig Name *</label>
+                                                    <input id="desig_name" name="desig_name[]" type="text" class="form-control" value="{{ old('desig_name')[$loop->index] ?? '' }}">
+                                                    @if ($errors->has("desig_name.$loop->index"))
+                                                        <span class="text-danger text-left">{{ $errors->first("desig_name.$loop->index") }}</span>
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="id_no">ID No *</label>
+                                                    <input id="id_no" name="{{ $personalDetail }}[id_no][]" type="text" class="form-control">
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="phone">Phone *</label>
+                                                    <input id="phone" name="{{ $personalDetail }}[phone][]" type="text" class="form-control">
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="email">Email *</label>
+                                                    <input id="email" name="{{ $personalDetail }}[email][]" type="email" class="form-control">
+                                                </div>
+                                                
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="message">Comment *</label>
+                                                    <textarea id="message" name="{{ $personalDetail }}[message][]" class="form-control" rows="5"></textarea>
+                                                </div>
+                                                
+            
+                                            </div>
+                                        </div>
+            
+            
+            
+            
+            
+                                        <div class="form-group">
+                                            <div class="p-2">
+                                                <button type="submit" class="btn btn-outline-info btn-rounded waves-light waves-effect width-md"><i class="mdi mdi-send-circle-outline"></i> Finish and Submit</button>
+                                                </div>
+            
+                                        </div>
+                                    </div>
+                                </form>
+                           </fieldset>
+            
+            
+            </div> --}}
             </div>
-            </div>
+
+
+
+
                       </div>
         </div>
     </div>

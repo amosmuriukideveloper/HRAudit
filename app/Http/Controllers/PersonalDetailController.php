@@ -10,6 +10,8 @@ use App\Models\ChangeType;
 use App\Models\Course;
 use App\Models\Department;
 use App\Models\DisabilityStatus;
+use App\Models\EmployeeCertificate;
+use App\Models\EmployeeWorkExperience;
 use App\Models\EmploymentChange;
 use App\Models\EmploymentDetail;
 use App\Models\EmploymentTerm;
@@ -117,11 +119,12 @@ class PersonalDetailController extends Controller
         $institutions = Institution::all();
         $courses = Course::all();
         $certificates = Certificate::all();
-        
+        $employment_work_experience = EmployeeWorkExperience::all();
+        $employeeCertificates = EmployeeCertificate::all();
         $approvingSignatories = ApprovingSignatory::all();
         $employmentTerms = EmploymentTerm::all();
        
-           return view('biodata.edit', compact('personalDetail', 'employmentDetail', 'employmentChanges', 'disabilityStatuses', 'ethnicities', 'departments', 'positions', 'employmentTerms', 'probations', 'jobGrades', 'jobTitles', 'relationships', 'institutions', 'courses', 'certificates', 'approvingSignatories', 'employmentTerms', 'payslip'));
+           return view('biodata.edit', compact('personalDetail', 'employmentDetail', 'employmentChanges', 'disabilityStatuses', 'ethnicities', 'departments', 'positions', 'employmentTerms', 'probations', 'jobGrades', 'jobTitles', 'relationships', 'institutions', 'courses', 'certificates', 'approvingSignatories', 'employmentTerms', 'payslip', 'employeeCertificates', 'employment_work_experience'));
 
     }
 
