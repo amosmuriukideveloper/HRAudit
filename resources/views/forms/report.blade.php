@@ -151,19 +151,19 @@
                       <td>{{ optional($personal->employmentChanges)->date }}</td>
                       <td>{{ optional($personal->employmentChanges)->approving_signatory }}</td>
 
-                      {{-- <td>{{ optional($personal->payslip->payment_month)}}</td> --}}
+                      
                       <td>{{ optional($personal->payslip)->payment_month }}</td>
-    <td>{{ optional($personal->payslip)->basic_salary }}</td>
-    <td>{{ optional($personal->payslip)->total_earnings }}</td>
-    <td>{{ optional($personal->payslip)->pf_number }}</td>
-    <td>{{ optional($personal->payslip)->name }}</td>
-    <td>{{ optional($personal->payslip)->station_name }}</td>
-    <td>{{ optional($personal->payslip)->station_code }}</td>
-    <td>{{ optional($personal->payslip)->desig_code }}</td>
-    <td>{{ optional($personal->payslip)->desig_name }}</td>
-    <td>{{ optional($personal->payslip)->id_no }}</td>
-    <td>{{ optional($personal->payslip)->tax_pin }}</td>
-    <td>{{ optional($personal->payslip)->comments }}</td>
+                      <td>{{ optional($personal->payslip)->basic_salary }}</td>
+                      <td>{{ optional($personal->payslip)->total_earnings }}</td>
+                      <td>{{ optional($personal->payslip)->pf_number }}</td>
+                      <td>{{ optional($personal->payslip)->name }}</td>
+                      <td>{{ optional($personal->payslip)->station_name }}</td>
+                      <td>{{ optional($personal->payslip)->station_code }}</td>
+                      <td>{{ optional($personal->payslip)->desig_code }}</td>
+                      <td>{{ optional($personal->payslip)->desig_name }}</td>
+                      <td>{{ optional($personal->payslip)->id_no }}</td>
+                      <td>{{ optional($personal->payslip)->tax_pin }}</td>
+                      <td>{{ optional($personal->payslip)->comments }}</td>
                       @endforeach
                 </tbody>
             </table>

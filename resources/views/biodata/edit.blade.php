@@ -233,9 +233,9 @@
                        </div>
 
 
-                        <form id="basic-form" action="{{ route('employment.details.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                        <form id="basic-form" action="{{ route('employment.details.update', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method("POST")
+                            @method("PUT")
 
                             <div>
 
@@ -312,66 +312,71 @@
                               
                             </div>
 
-                            <div class="form-group" >
-                                <label class="control-label">Work Experience</label>
-                                <div id="previous_work_experience_fields">
-                                    {{-- Previous Position --}}
-                                    <div class="form-group row  pb-2 pt-2" style="border-top:1px solid #ccc; border-bottom:1px solid #ccc">
-                                        <div class="col-md-3">
-                                            <label class="control-label" for="position">Position *</label>
-                                            <div class="">
-                                                <input  name="position[]" type="text" class="select2 form-control" value="{{ old('position.0', $personalDetail->position ?? '') }}">
-
-                                                @if ($errors->has('position'))
-                                                    <span class="text-danger text-left">{{ $errors->first('position') }}</span>
-                                                @endif
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label text-md-right">Work Experience</label>
+                        
+                                <div class="col-md-9">
+                                    <div id="previous_work_experience_fields">
+                                        @foreach ($previousData['previous_work_experience'] as $key => $workExperience)
+                                            <div class="form-group row pb-2 pt-2" style="border-top:1px solid #ccc; border-bottom:1px solid #ccc">
+                                                <div class="col-md-3">
+                                                    <label for="position" class="col-form-label text-md-right">Position *</label>
+                                                    <input id="position" name="position[]" type="text" class="form-control @error('position.' . $key) is-invalid @enderror" value="{{ old('position.' .  $key, $workExperience['position']) }}">
+                                                    @error('position.' . $key)
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="control-label" for="position_type">Position Type <span class="text-danger">*</span></label>
-                                            <div class="">
-                                                <select name="position_type[]" id="" class="select2 form-control">
+                        
+                                            <div class="col-md-3">
+                                                <label for="position_type" class="col-form-label text-md-right">Position Type *</label>
+                                                <select name="position_type[]" id="position_type" class="form-control @error('position_type.' . $key) is-invalid @enderror">
                                                     <option value="">Select Position Type</option>
-                                                    <option value="current">Current</option>
-                                                    <option value="previous">Previous</option>
+                                                    <option value="current" {{ old('position_type.' . $key, $workExperience['position_type']) == 'current' ? 'selected' : '' }}>Current</option>
+                                                    <option value="previous" {{ old('position_type.' . $key, $workExperience['position_type']) == 'previous' ? 'selected' : '' }}>Previous</option>
                                                 </select>
+                        
+                                                @error('position_type.' . $key)
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
-                                            @if ($errors->has('position_type'))
-                                                <span class="text-danger text-left">{{ $errors->first('position_type') }}</span>
-                                            @endif
-                                        </div>
-                                            {{-- Previous JobGrade --}}
+                        
                                             <div class="col-md-3">
-                                                <label class="control-label" for="job_grade_id">Job Grade *</label>
-                                                <div class="">
-                                                    <select id="job_grade_id" name="job_grade_id[]" class="select2 form-control">
-                                                        <option value="">Select Job Grade</option>
-                                                        @foreach ($jobGrades as $jobGrade)
-                                                            <option value="{{ old('job_grade_id.0', $jobGrade->id) }}" {{ old('job_grade_id.'.$loop->index, $personalDetail->job_grade_id) == $jobGrade->id ? 'selected' : '' }}>{{ $jobGrade->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if ($errors->has('job_grade_id'))
-                                                        <span class="text-danger text-left">{{ $errors->first('job_grade_id') }}</span>
-                                                    @endif
-                                                </div>
+                                                <label for="job_grade_id" class="col-form-label text-md-right">Job Grade *</label>
+                                                <select id="job_grade_id" name="job_grade_id[]" class="form-control @error('job_grade_id.' . $key) is-invalid @enderror">
+                                                    <option value="">Select Job Grade</option>
+                                                    @foreach ($jobGrades as $jobGrade)
+                                                        <option value="{{ $jobGrade->id }}" {{ old('job_grade_id.' . $key, $workExperience['job_grade_id']) == $jobGrade->id ? 'selected' : '' }}>{{ $jobGrade->name }}</option>
+                                                    @endforeach
+                                                </select>
+                        
+                                                @error('job_grade_id.' . $key)
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
-                                            
-                
-                                            {{-- Previous Employment Year --}}
+                        
                                             <div class="col-md-3">
-                                                <label class="control-label" for="employment_year">Employment Year *</label>
-                                                <div class="">
-                                                    <input id="employment_year" name="employment_year[]" type="date" class="select2 form-control" value="{{ old('employment_year.0', $personalDetail->employment_year ?? null) }}" max="{{ date('Y') }}">
-                                                    @if ($errors->has('employment_year'))
-                                                        <span class="text-danger text-left">{{ $errors->first('employment_year') }}</span>
-                                                    @endif
-                                                </div>
+                                                <label for="employment_year" class="col-form-label text-md-right">Employment Year *</label>
+                                                <input id="employment_year" name="employment_year[]" type="date" class="form-control @error('employment_year.' . $key) is-invalid @enderror" value="{{ old('employment_year.' . $key, $workExperience['employment_year']) }}" max="{{ date('Y') }}">
+                        
+                                                @error('employment_year.' . $key)
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
-                                            
                                         </div>
-                                    </div>
-                                    <button type="button" id="add_previous_work_experience" class="btn btn-outline-info btn-rounded btn-sm"><i style="font-size:16px" class="mdi mdi-clipboard-plus"></i>Add Work Experience</button>
+                                    @endforeach
                                 </div>
+                        
+                                <button type="button" id="add_previous_work_experience" class="btn btn-outline-info btn-rounded btn-sm"><i style="font-size:16px" class="mdi mdi-clipboard-plus"></i>Add Work Experience</button>
+                            </div>
+                        </div>
                 
                                 <div class="form-group row">
                                     <div class="col-md-12">
@@ -697,7 +702,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="tab-pane" id="settings1">
+            <div class="tab-pane" id="settings1">
                 <div class="col-md-12">
                     <div class="card-box input-card">
                         <div class="card-header mb-2" style="border:1px solid #ccc">
@@ -729,7 +734,7 @@
                                                 <div class="col-md-4 mb-3">
                                                     <label for="date">Payment Month *</label>
                                                     <div class="input-group">
-                                                        <input id="date" name="date[]" type="date" class="form-control" value="{{ old('date', $personalDetail['payment_month']) }}">
+                                                        <input name="basic_salary[]" type="text" class="form-control" value="{{ old('basic_salary', $personalDetail->basic_salary[$index] ?? '') }}">
                                                     </div>
                                                     @if ($errors->has('date[]'))
                                                         <span class="text-danger text-left">{{ $errors->first('date[]') }}</span>
@@ -738,7 +743,8 @@
                                                 
                                                 <div class="col-md-4 mb-3">
                                                     <label for="pf_number">Basic Salary *</label>
-                                                    <input name="basic_salary[]" type="text" class="form-control" value="{{ old('basic_salary')[$index] ?? '' }}">
+                                                    <input name="total_earnings[{{$loop->index}}]" type="text" class="form-control" value="{{ old('total_earnings.'.$loop->index, isset($personalDetail) ? $personalDetail->total_earnings[$loop->index] : '') }}">
+
                                                     @if ($errors->has('basic_salary'))
                                                         <span class="text-danger text-left">{{ $errors->first('basic_salary') }}</span>
                                                     @endif
@@ -838,7 +844,7 @@
                            </fieldset>
             
             
-            </div> --}}
+            </div>
             </div>
 
 

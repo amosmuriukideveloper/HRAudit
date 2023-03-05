@@ -29,7 +29,8 @@ class EmploymentDetailController extends Controller
         $employmentDetails = EmploymentDetail::all();
         $positions = Position::all();
         $jobGrades = JobGrade::all();
-        return view('forms.second', compact('employmentDetails', 'employmentTerms', 'departments', 'probations', 'positions', 'jobGrades'));
+        $previous_work_experience= EmployeeWorkExperience::all();
+        return view('forms.second', compact('employmentDetails', 'employmentTerms', 'departments', 'probations', 'positions', 'jobGrades','previous_work_experience'));
     }
 
     /**
@@ -46,10 +47,10 @@ class EmploymentDetailController extends Controller
         $positions = Position::all();
         $jobGrades = JobGrade::all();
         $employmentTerms = EmploymentTerm::all();
-
+        $previous_work_experience= EmployeeWorkExperience::all();
         $employmentDetails = EmploymentDetail::all();
 
-        return view('forms.second', compact('employmentDetails', 'departments', 'employmentTerms', 'probations', 'positions', 'jobGrades', 'id'));
+        return view('forms.second', compact('employmentDetails', 'departments', 'employmentTerms', 'probations', 'positions', 'jobGrades', 'id', 'previous_work_experience'));
 
     }
 
@@ -123,9 +124,25 @@ class EmploymentDetailController extends Controller
         $employmentTerms = EmploymentTerm::findOrFail($id);
         $departments = Department::findOrFail($id);
         $positions = Position::findOrFail($id);
+        $previous_work_experience = [];
+        if (old('position')) {
+            foreach (old('position') as $key => $value) {
+                $previous_work_experience[] = [
+                    'position' => old('position.' . $key),
+                    'position_type' => old('position_type.' . $key),
+                    'job_grade_id' => old('job_grade_id.' . $key),
+                    'employment_year' => old('employment_year.' . $key),
+                ];
+            }
+        }
+    
+        $previousData = [
+            'previous_work_experience' => $previous_work_experience,
+        ];
 
+       
 
-        return view('biodata.edit', compact('employmentDetail', 'personalDetail', 'probations', 'jobGrades', 'departments', 'employmentTerms', 'positions'));
+        return view('biodata.edit', compact('employmentDetail', 'personalDetail', 'probations', 'jobGrades', 'departments', 'employmentTerms', 'positions', 'previousData'));
     }
 
     /**
