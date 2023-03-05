@@ -317,7 +317,7 @@
                         
                                 <div class="col-md-9">
                                     <div id="previous_work_experience_fields">
-                                        @foreach ($previousData['previous_work_experience'] as $key => $workExperience)
+                                        @foreach (['previous_work_experience'] as $key => $workExperience)
                                             <div class="form-group row pb-2 pt-2" style="border-top:1px solid #ccc; border-bottom:1px solid #ccc">
                                                 <div class="col-md-3">
                                                     <label for="position" class="col-form-label text-md-right">Position *</label>
@@ -418,11 +418,11 @@
                         <div class="card-header mb-2" style="border:1px solid #ccc">
                              <h4 class="header-title text-info"><b>Step 3: Certificates</b></h4>
                         </div>
-                        <form id="basic-form" action="{{ route('employee.certificate.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                        <form id="basic-form" action="{{ route('employee.certificate.update', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                            <fieldset>
-                             <legend>Add Academic certificates</legend>
+                             <legend>Update Academic certificates</legend>
                                 <div >
                                     <div class="p-1">
                                         <button type="button" class="btn btn-outline-info btn-xs  mt-4" onclick="addCertificate()"><i class="mdi mdi-note-plus-outline"></i> Add Certificate</button>
@@ -445,6 +445,19 @@
                                                     </table>
                                                     <!-- dynamic input fields for other certificates will be added here -->
                                                 </div>
+
+                                                @php
+                                            $name = isset($certificate) ? $certificate->name : '';
+                                            $index_number = isset($certificate) ? $certificate->index_number : '';
+                                            $school = isset($certificate) ? $certificate->school : '';
+                                            $certificate_number = isset($certificate) ? $certificate->certificate_number : '';
+                                            $certificate_year = isset($certificate) ? $certificate->certificate_year : '';
+                                            @endphp
+
+                                            <script>
+                                                addCertificate('{{ $name }}', '{{ $index_number }}', '{{ $school }}', '{{ $certificate_number }}', '{{ $certificate_year }}');
+                                            </script>
+
             
                                              </div>
             
@@ -490,7 +503,7 @@
 
 
 
-                        <form id="basic-form" action="{{ route('employment.change.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                        <form id="basic-form" action="{{ route('employment.change.update', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                             <div>
@@ -709,7 +722,7 @@
                              <h4 class="header-title text-info"><b>STEP 4: Payment Details </b></h4>
                         </div>
             
-                        <form id="basic-form" action="{{ route('payslip.store', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
+                        <form id="basic-form" action="{{ route('payslip.update', $personalDetail->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
                            <fieldset >
@@ -920,3 +933,137 @@ $("#previous_work_experience_fields").append(html);
 });
 </script>
 @endpush
+
+<script>
+    // function to add input fields for other certificates
+    function addCertificate(name = '', index_number = '', school = '', certificate_number = '', certificate_year = '') {
+        var container = document.createElement('div');
+        container.classList.add('row');
+        container.classList.add('p-2');
+        container.style.borderBottom = '1px solid #ccc';
+
+        var titleDiv = document.createElement('div');
+        titleDiv.classList.add('col-md-3');
+        var titleInput = document.createElement('input');
+        titleInput.classList.add('form-control');
+        titleInput.placeholder = 'Certificate Title';
+        titleInput.name = 'name[]';
+        titleInput.value = name;
+        titleDiv.appendChild(titleInput);
+        container.appendChild(titleDiv);
+
+        var indexDiv = document.createElement('div');
+        indexDiv.classList.add('col-md-2');
+        var indexInput = document.createElement('input');
+        indexInput.classList.add('form-control');
+        indexInput.placeholder = 'Index No/Regnumber';
+        indexInput.name = 'index_number[]';
+        indexInput.value = index_number;
+        indexDiv.appendChild(indexInput);
+        container.appendChild(indexDiv);
+
+        var schoolDiv = document.createElement('div');
+        schoolDiv.classList.add('col-md-3');
+        var schoolInput = document.createElement('input');
+        schoolInput.classList.add('form-control');
+        schoolInput.placeholder = 'School/Institution';
+        schoolInput.name = 'school[]';
+        schoolInput.value = school;
+        schoolDiv.appendChild(schoolInput);
+        container.appendChild(schoolDiv);
+
+        var certificateDiv = document.createElement('div');
+        certificateDiv.classList.add('col-md-2');
+        var certificateInput = document.createElement('input');
+        certificateInput.classList.add('form-control');
+        certificateInput.placeholder = 'Certificate No';
+        certificateInput.name = 'certificate_number[]';
+        certificateInput.value = certificate_number;
+        certificateDiv.appendChild(certificateInput);
+        container.appendChild(certificateDiv);
+
+        var certificateDiv = document.createElement('div');
+        certificateDiv.classList.add('col-md-2');
+        var certificateInput = document.createElement('input');
+        certificateInput.type = 'date';
+        certificateInput.classList.add('form-control');
+        certificateInput.placeholder = 'Year';
+        certificateInput.name = 'certificate_year[]';
+        certificateInput.value = certificate_year;
+        certificateDiv.appendChild(certificateInput);
+        container.appendChild(certificateDiv);
+
+        document.getElementById('knec_certificates').appendChild(container);
+    }
+</script>
+
+
+<script>
+    // function to add input fields for other certificates
+    function addProfessionalCertificate(professionalBody='', membershipNumber='', licenseNumber='', certYear='', membershipStatus='') {
+        var container = document.createElement('div');
+        container.classList.add('row');
+        container.classList.add('p-2');
+        container.style.borderBottom = '1px solid #ccc';
+
+        var numberDiv = document.createElement('div');
+        numberDiv.classList.add('col-md-3');
+        var numberInput = document.createElement('input');
+        numberInput.classList.add('form-control');
+        numberInput.placeholder = 'Professional Body';
+        numberInput.name = 'professional_body[]';
+        numberInput.value = professionalBody; // set value to previous value if available
+        numberDiv.appendChild(numberInput);
+        container.appendChild(numberDiv);
+        
+        var numberDiv = document.createElement('div');
+        numberDiv.classList.add('col-md-3');
+        var numberInput = document.createElement('input');
+        numberInput.classList.add('form-control');
+        numberInput.placeholder = 'Membership Number';
+        numberInput.name = 'membership_number[]';
+        numberInput.value = membershipNumber; // set value to previous value if available
+        numberDiv.appendChild(numberInput);
+        container.appendChild(numberDiv);
+
+        var licenseDiv = document.createElement('div');
+        licenseDiv.classList.add('col-md-3');
+        var licenseInput = document.createElement('input');
+        licenseInput.classList.add('form-control');
+        licenseInput.placeholder = 'License Number';
+        licenseInput.name = 'license_number[]';
+        licenseInput.value = licenseNumber; // set value to previous value if available
+        licenseDiv.appendChild(licenseInput);
+        container.appendChild(licenseDiv);
+
+        var yearDiv = document.createElement('div');
+        yearDiv.classList.add('col-md-3');
+        var yearInput = document.createElement('input');
+        yearInput.type = 'date';
+        yearInput.classList.add('form-control');
+        yearInput.placeholder = 'Certification Year';
+        yearInput.name = 'cert_year[]';
+        yearInput.value = certYear; // set value to previous value if available
+        yearDiv.appendChild(yearInput);
+        container.appendChild(yearDiv);
+
+        var statusDiv = document.createElement('div');
+        statusDiv.classList.add('col-md-3');
+        var statusSelect = document.createElement('select');
+        statusSelect.classList.add('form-control');
+        statusSelect.name = 'membership_status[]';
+        var statusOption1 = document.createElement('option');
+        statusOption1.value = 'yes';
+        statusOption1.textContent = 'Yes';
+        var statusOption2 = document.createElement('option');
+        statusOption2.value = 'no';
+        statusOption2.textContent = 'No';
+        statusSelect.appendChild(statusOption1);
+        statusSelect.appendChild(statusOption2);
+        statusSelect.value = membershipStatus; // set value to previous value if available
+        statusDiv.appendChild(statusSelect);
+        container.appendChild(statusDiv);
+
+        document.getElementById('professional_certificates').appendChild(container);
+    }
+</script>
