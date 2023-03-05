@@ -47,8 +47,21 @@
                     <th scope="col">Current Job Grade</th>
                     <th scope="col">Previous Position</th>
                     <th scope="col">Previous Job Grade</th>
-                    <th scope="col">Academic Certificates</th>
-                    <th scope="col">Professional Certificates</th>
+
+                    <th scope="col">Knec Cert name</th>
+                    <th scope="col">Knec Index No. </th>
+                    <th scope="col">School</th>
+                    <th scope="col">Knec Certificate No</th>
+                    <th scope="col">Professional Body</th>
+                    <th scope="col">Membership Number</th>
+                    <th scope="col">License Number</th>
+                    <th scope="col">Professional Cert Year</th>
+                    <th scope="col">Membership Status</th>
+                    <th scope="col">Other Certificates Title</th>
+                    <th scope="col">Course/Programme</th>
+                    <th scope="col">Certificate Year</th>
+                    <th scope="col">Certificate Number</th>
+                    <th scope="col">Comments</th>
                     <th scope="col">Relative</th>
                     <th scope="col">Name</th>
                     <th scope="col">Relationship</th>
@@ -65,7 +78,18 @@
                     <th scope="col">Comments</th>
                     
                   
-                    <th scope="col">Month</th>
+                    <th scope="col">Payment Month</th>
+                    <th scope="col">Basic Salary</th>
+                    <th scope="col">Total Earnings</th>
+                    <th scope="col">PF Number</th>
+                    <th scope="col">Taxpin</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Station Name</th>
+                    <th scope="col">Station Code</th>
+                    <th scope="col">Desig Code</th>
+                    <th scope="col">Desig Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Comments</th>
 
 
 
@@ -123,7 +147,7 @@
                       <td>{{ optional($personal->employmentChanges)->end_date }}</td>
                       <td>{{ optional($personal->employmentChanges)->institution }}</td>
                       <td>{{ optional($personal->employmentChanges)->course }}</td>
-                      <td>{{ optional($personal->employmentChanges)->name }}</td>
+                      <td>{{ optional($personal->employmentChanges)->certificate }}</td>
                       <td>{{ optional($personal->employmentChanges)->date }}</td>
                       <td>{{ optional($personal->employmentChanges)->approving_signatory }}</td>
 
